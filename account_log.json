@@ -1,0 +1,42 @@
+[
+  {
+    "id": 7696632,
+    "name": "S1MAY1213807238",
+    "balance": 148106.2,
+    "canTrade": true,
+    "isVisible": true,
+    "simulated": true
+  },
+  {
+    "id": 7914249,
+    "name": "S1MAY1914000301",
+    "balance": 145462.2,
+    "canTrade": true,
+    "isVisible": true,
+    "simulated": true
+  },
+  {
+    "id": 7932682,
+    "name": "S1MAY1914015925",
+    "balance": 145413.64,
+    "canTrade": true,
+    "isVisible": true,
+    "simulated": true
+  },
+  {
+    "id": 7938214,
+    "name": "S1MAY2014020799",
+    "balance": 145378.8,
+    "canTrade": true,
+    "isVisible": true,
+    "simulated": true
+  },
+  {
+    "id": 8471959,
+    "name": "PRACTICEJUN514470327",
+    "balance": 155760.0,
+    "canTrade": true,
+    "isVisible": true,
+    "simulated": true
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "id": "CON.F.US.ENQ.H25",
+  "name": "NQH5",
+  "description": "E-mini NASDAQ-100: March 2025",
+  "tickSize": 0.25,
+  "tickValue": 5,
+  "activeContract": false
+}
