@@ -70,7 +70,7 @@ npm run electron
 
 📂 .env
 
-This app uses an .env file located in /backend/. You do not need to create or modify this file manually. The app handles .env updates dynamically through the onboarding UI.
+This app uses an .env file located in the root directory. You do not need to create or modify this file manually. The app handles .env updates dynamically through the onboarding UI.
 
 This file is included in the repo using placeholder credentials.
 💻 Platforms & Testing Notes
