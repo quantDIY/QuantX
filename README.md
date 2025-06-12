@@ -66,7 +66,7 @@ npm run dev
 
 Shell 3: Start Electron Shell
 
-npm run electron
+npm start #or npm run electron
 
 📂 .env
 
