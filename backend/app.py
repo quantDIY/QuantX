@@ -9,3 +9,4 @@ def api_search_accounts():
     return jsonify(search_accounts())
 
 # ... add /order, /trade, /position routes analogously
+# This is the backend flask connector, not the backend.
