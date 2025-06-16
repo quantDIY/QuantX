@@ -69,6 +69,8 @@ Shell 3: Start Electron Shell
 
 npm start # or npm run electron (entry: electron/main.js)
 
+The Electron entry point is located at `electron/main.js`. The frontend code resides in the `frontend/` directory.
+
 📂 .env
 
 This app uses an .env file located in the root directory. You do not need to create or modify this file manually. The app handles .env updates dynamically through the onboarding UI.
