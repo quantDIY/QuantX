@@ -5,7 +5,7 @@ const fs = require('fs');
 const axios = require('axios');
 
 ipcMain.handle('save-config', async (_, config) => {
-  const envTarget = path.join(__dirname, 'backend', '.env');
+  const envTarget = path.join(__dirname, '.env');
   const lines = Object.entries(config).map(([k, v]) => `${k}=${v}`).join('\n');
   fs.appendFileSync(envTarget, '\n' + lines);
 });
@@ -29,7 +29,7 @@ ipcMain.handle('run-tests', async () => {
 });
 
 ipcMain.handle('get-env', () => {
-  const envPath = path.join(__dirname, 'backend', '.env');
+  const envPath = path.join(__dirname, '.env');
   if (!fs.existsSync(envPath)) return {};
   const env = dotenv.parse(fs.readFileSync(envPath));
   return env;
