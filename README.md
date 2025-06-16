@@ -74,6 +74,16 @@ This app uses an .env file located in the root directory. You do not need to cre
 
 This file is included in the repo using placeholder credentials.
 A `.env.example` file is also provided for reference and can be copied to `.env` when setting up the project locally.
+
+### Running Tests
+
+After installing dependencies, you can run the Jest test suite with:
+
+```bash
+npm test
+```
+
+This repository includes a simple sample test in `__tests__/` to verify your environment is configured correctly.
 💻 Platforms & Testing Notes
 
 QuantX is actively tested on:
