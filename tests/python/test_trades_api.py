@@ -1,5 +1,5 @@
 import os
-from topstepx_trader.trades_api_client import search_trades
+from backend.topstepx_trader.trades_api_client import search_trades
 
 def test_search_trades():
     """

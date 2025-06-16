@@ -3,8 +3,8 @@ import pytest
 import json
 from dotenv import load_dotenv, find_dotenv
 import os
-from topstepx_trader.accounts import search_accounts
-from topstepx_trader.auth import authenticate
+from backend.topstepx_trader.accounts import search_accounts
+from backend.topstepx_trader.auth import authenticate
 
 def test_search_accounts():
     load_dotenv(override=True)

@@ -1,7 +1,7 @@
 # tests/test_contracts.py
 import pytest
 from dotenv import load_dotenv
-from topstepx_trader.contracts import search_contracts, search_contract_by_id
+from backend.topstepx_trader.contracts import search_contracts, search_contract_by_id
 import json
 
 def test_search_contracts():

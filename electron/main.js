@@ -3,9 +3,10 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
+const rootDir = path.join(__dirname, '..');
 
 ipcMain.handle('save-config', async (_, config) => {
-  const envTarget = path.join(__dirname, '.env');
+  const envTarget = path.join(rootDir, '.env');
   const lines = Object.entries(config).map(([k, v]) => `${k}=${v}`).join('\n');
   fs.appendFileSync(envTarget, '\n' + lines);
 });
@@ -17,10 +18,10 @@ ipcMain.handle('search-accounts', async () => {
 
 ipcMain.handle('run-tests', async () => {
   const { exec } = require('child_process');
-  const env = { ...process.env, PYTHONPATH: '.' };
+  const env = { ...process.env, PYTHONPATH: rootDir };
   return new Promise(resolve => {
     exec('pytest tests/python', {
-      cwd: __dirname,
+      cwd: rootDir,
       env,
     }, (err, stdout) => {
       resolve({ success: !err, output: stdout });
@@ -29,7 +30,7 @@ ipcMain.handle('run-tests', async () => {
 });
 
 ipcMain.handle('get-env', () => {
-  const envPath = path.join(__dirname, '.env');
+  const envPath = path.join(rootDir, '.env');
   if (!fs.existsSync(envPath)) return {};
   const env = dotenv.parse(fs.readFileSync(envPath));
   return env;
@@ -53,7 +54,7 @@ function createMainWindow() {
     win.loadURL(devUrl);
     win.webContents.openDevTools();
   } else {
-    win.loadFile(path.join(__dirname, 'dist', 'index.html'));
+    win.loadFile(path.join(rootDir, 'dist', 'index.html'));
   }
 }
 

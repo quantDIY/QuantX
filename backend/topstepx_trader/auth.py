@@ -1,6 +1,6 @@
 import requests
 from dotenv import set_key
-from topstepx_trader import config
+from backend.topstepx_trader import config
 
 def authenticate():
     url = f"{config.BASE_API_URL}/api/Auth/loginKey"

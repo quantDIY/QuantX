@@ -2,7 +2,7 @@
 import pytest
 import os
 from dotenv import load_dotenv, dotenv_values
-from topstepx_trader.auth import authenticate, validate_token
+from backend.topstepx_trader.auth import authenticate, validate_token
 
 
 def test_authenticate():
