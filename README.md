@@ -83,7 +83,13 @@ After installing dependencies, you can run the Jest test suite with:
 npm test
 ```
 
-This repository includes a simple sample test in `__tests__/` to verify your environment is configured correctly.
+To run the Python test suite:
+
+```bash
+pytest tests/python
+```
+
+This repository includes a simple sample test in `tests/js/` to verify your environment is configured correctly.
 💻 Platforms & Testing Notes
 
 QuantX is actively tested on:

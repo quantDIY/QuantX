@@ -1,7 +1,7 @@
 # tests/test_accounts.py
 import pytest
 import json
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import os
 from topstepx_trader.accounts import search_accounts
 from topstepx_trader.auth import authenticate
@@ -11,8 +11,7 @@ def test_search_accounts():
     token = authenticate()
 
     # Update SESSION_TOKEN in .env
-    env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
-    env_path = os.path.abspath(env_path)
+    env_path = find_dotenv(filename=".env", raise_error_if_not_found=True)
 
     with open(env_path, 'r') as f:
         lines = f.readlines()
