@@ -3,6 +3,7 @@ import pytest
 from dotenv import load_dotenv
 from topstepx_trader.retrieve_bars import retrieve_bars
 import json
+import os
 
 
 def test_retrieve_bars():
@@ -11,6 +12,7 @@ def test_retrieve_bars():
     assert result is not None
     assert result.get("success") is True
     assert "bars" in result
-    with open("bars_log.json", "w") as f:
+    log_path = os.path.join("logs", "bars_log.json")
+    with open(log_path, "w") as f:
         json.dump(result.get("bars"), f, indent=2)
     print("[TEST OUTPUT] Bars returned:", json.dumps(result.get("bars"), indent=2))

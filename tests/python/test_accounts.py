@@ -34,7 +34,8 @@ def test_search_accounts():
     result = search_accounts()
     accounts = result.get("accounts", [])
 
-    with open("account_log.json", "w") as f:
+    log_path = os.path.join("logs", "account_log.json")
+    with open(log_path, "w") as f:
         json.dump(accounts, f, indent=2)
 
     print("[DEBUG] API Returned Accounts:", json.dumps(accounts, indent=2))
