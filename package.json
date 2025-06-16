@@ -2,7 +2,7 @@
   "name": "quantx-platform",
   "version": "0.1.0",
   "description": "QuantX Electron Frontend",
-  "main": "main.js",
+  "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
     "test": "jest",

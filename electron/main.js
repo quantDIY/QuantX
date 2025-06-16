@@ -5,7 +5,7 @@ const fs = require('fs');
 const axios = require('axios');
 
 ipcMain.handle('save-config', async (_, config) => {
-  const envTarget = path.join(__dirname, '.env');
+  const envTarget = path.join(__dirname, '..', '.env');
   const lines = Object.entries(config).map(([k, v]) => `${k}=${v}`).join('\n');
   fs.appendFileSync(envTarget, '\n' + lines);
 });
@@ -17,10 +17,13 @@ ipcMain.handle('search-accounts', async () => {
 
 ipcMain.handle('run-tests', async () => {
   const { exec } = require('child_process');
-  const env = { ...process.env, PYTHONPATH: '.' };
+  const env = {
+    ...process.env,
+    PYTHONPATH: path.join(__dirname, '..', 'backend'),
+  };
   return new Promise(resolve => {
     exec('pytest tests/python', {
-      cwd: __dirname,
+      cwd: path.join(__dirname, '..'),
       env,
     }, (err, stdout) => {
       resolve({ success: !err, output: stdout });
@@ -29,7 +32,7 @@ ipcMain.handle('run-tests', async () => {
 });
 
 ipcMain.handle('get-env', () => {
-  const envPath = path.join(__dirname, '.env');
+  const envPath = path.join(__dirname, '..', '.env');
   if (!fs.existsSync(envPath)) return {};
   const env = dotenv.parse(fs.readFileSync(envPath));
   return env;
@@ -40,7 +43,7 @@ function createMainWindow() {
     width: 1000,
     height: 700,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, '..', 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
     },
@@ -53,7 +56,7 @@ function createMainWindow() {
     win.loadURL(devUrl);
     win.webContents.openDevTools();
   } else {
-    win.loadFile(path.join(__dirname, 'dist', 'index.html'));
+    win.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
   }
 }
 
