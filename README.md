@@ -73,6 +73,7 @@ npm start #or npm run electron
 This app uses an .env file located in the root directory. You do not need to create or modify this file manually. The app handles .env updates dynamically through the onboarding UI.
 
 This file is included in the repo using placeholder credentials.
+A `.env.example` file is also provided for reference and can be copied to `.env` when setting up the project locally.
 💻 Platforms & Testing Notes
 
 QuantX is actively tested on:
