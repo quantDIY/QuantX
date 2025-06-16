@@ -1,4 +1,4 @@
 requests
-dotenv
+python-dotenv
 schedule
 pytest
