@@ -21,6 +21,7 @@ Thank you for being a part of this effort to build a free, open-source trading t
 
 - **Electron** (Desktop Shell)
 - **Vite + React** (Frontend)
+- **Node via NPM** (Powers Electron and Vite tooling)
 - **Flask** (Backend API bridge)
 - **Python** (Strategy & Testing Layer)
 - **Tailwind CSS** (Styling)
