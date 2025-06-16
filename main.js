@@ -19,7 +19,7 @@ ipcMain.handle('run-tests', async () => {
   const { exec } = require('child_process');
   const env = { ...process.env, PYTHONPATH: '.' };
   return new Promise(resolve => {
-    exec('pytest tests', {
+    exec('pytest tests/python', {
       cwd: __dirname,
       env,
     }, (err, stdout) => {
