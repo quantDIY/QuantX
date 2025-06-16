@@ -6,6 +6,8 @@ import os
 from backend.topstepx_trader.accounts import search_accounts
 from backend.topstepx_trader.auth import authenticate
 
+LOG_DIR = "logs"
+
 def test_search_accounts():
     load_dotenv(override=True)
     token = authenticate()
@@ -34,7 +36,8 @@ def test_search_accounts():
     result = search_accounts()
     accounts = result.get("accounts", [])
 
-    with open("account_log.json", "w") as f:
+    os.makedirs(LOG_DIR, exist_ok=True)
+    with open(os.path.join(LOG_DIR, "account_log.json"), "w") as f:
         json.dump(accounts, f, indent=2)
 
     print("[DEBUG] API Returned Accounts:", json.dumps(accounts, indent=2))
