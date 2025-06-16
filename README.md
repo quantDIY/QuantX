@@ -44,7 +44,7 @@ cd QuantX
 
 python3 -m venv venv
 source venv/bin/activate  # On Windows use: venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r config/requirements.txt
 
 3. Setup JavaScript Environment
 
@@ -59,7 +59,7 @@ Shell 1: Start Flask Bridge
 source venv/bin/activate  # (or Windows equivalent)
 export FLASK_APP=backend/app.py
 export FLASK_ENV=development
-PYTHONPATH=. flask run --port=5000
+PYTHONPATH=./backend flask run --port=5000
 
 Shell 2: Start Vite Frontend
 
@@ -68,6 +68,8 @@ npm run dev
 Shell 3: Start Electron Shell
 
 npm start #or npm run electron
+
+The Electron entry point is located at `electron/main.js`. The frontend code resides in the `frontend/` directory.
 
 📂 .env
 
