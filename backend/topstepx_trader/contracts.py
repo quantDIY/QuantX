@@ -1,6 +1,6 @@
 # topstepx_trader/contracts.py
 import requests
-from topstepx_trader import config
+from backend.topstepx_trader import config
 
 def search_contracts(search_text="NQ", live=False):
     url = f"{config.BASE_API_URL}/api/Contract/search"

@@ -1,6 +1,6 @@
 # topstepx_trader/accounts.py
 import requests
-from topstepx_trader import config
+from backend.topstepx_trader import config
 from dotenv import set_key
 import json
 

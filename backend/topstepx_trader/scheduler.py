@@ -1,7 +1,7 @@
 import schedule
 import time
 import threading
-from topstepx_trader.auth import authenticate
+from backend.topstepx_trader.auth import authenticate
 
 def schedule_reauth():
     schedule.every().day.at("17:45").do(authenticate)

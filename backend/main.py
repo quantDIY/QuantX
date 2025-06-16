@@ -1,6 +1,6 @@
-from topstepx_trader.auth import authenticate
-from topstepx_trader.scheduler import schedule_reauth
-from topstepx_trader.bridge_client import listen_to_bridge
+from backend.topstepx_trader.auth import authenticate
+from backend.topstepx_trader.scheduler import schedule_reauth
+from backend.topstepx_trader.bridge_client import listen_to_bridge
 import threading
 
 if __name__ == "__main__":

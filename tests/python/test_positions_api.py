@@ -1,5 +1,5 @@
 import os
-from topstepx_trader.position_api_client import (
+from backend.topstepx_trader.position_api_client import (
     search_open_positions,
     close_position,
     partial_close_position

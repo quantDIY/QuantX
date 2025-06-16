@@ -1,5 +1,5 @@
 import schedule
-from topstepx_trader.scheduler import schedule_reauth
+from backend.topstepx_trader.scheduler import schedule_reauth
 
 def test_schedule_exists():
     schedule.clear()

@@ -1,5 +1,5 @@
 import requests
-from topstepx_trader import config
+from backend.topstepx_trader import config
 
 def listen_to_bridge():
     response = requests.get(f"{config.NODE_BRIDGE_URL}/stream", stream=True)

@@ -1,7 +1,7 @@
 # tests/test_retrieve_bars.py
 import pytest
 from dotenv import load_dotenv
-from topstepx_trader.retrieve_bars import retrieve_bars
+from backend.topstepx_trader.retrieve_bars import retrieve_bars
 import json
 
 
