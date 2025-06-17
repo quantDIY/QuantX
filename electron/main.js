@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
 const rootDir = path.join(__dirname, '..');
+app.commandLine.appendSwitch('no-sandbox');
 
 ipcMain.handle('save-config', async (_, config) => {
   const envTarget = path.join(rootDir, '.env');
