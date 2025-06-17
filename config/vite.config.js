@@ -2,16 +2,18 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+const rootPath = path.resolve(__dirname, '..');
+
 export default defineConfig({
-  root: 'frontend',
+  root: path.join(rootPath, 'frontend'),
   build: {
-    outDir: '../dist',
+    outDir: path.join(rootPath, 'dist'),
     emptyOutDir: true,
   },
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'frontend'),
+      '@': path.join(rootPath, 'frontend'),
     },
   },
 });
