@@ -1,4 +1,11 @@
 # 🚀 QuantX
+![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC--BY--NC%204.0-lightgrey.svg)
+![Platform Support](https://img.shields.io/badge/platform-macOS%20%7C%20Ubuntu%20%7C%20Windows-blue)
+![Node.js](https://img.shields.io/badge/node-%3E=18.x-brightgreen)
+![Python](https://img.shields.io/badge/python-3.9%2B-blue)
+<!-- Uncomment once CI is enabled -->
+<!-- ![Build Status](https://github.com/quantDIY/QuantX/actions/workflows/test.yml/badge.svg) -->
+
 
 QuantX is a modular, cross-platform desktop trading assistant designed to interface with the [TopstepX API](https://gateway.docs.projectx.com/docs/intro/). Built for traders by traders, QuantX automates the heavy lifting of connectivity, testing, and account management—providing a foundation for custom strategy deployment.
 
@@ -106,13 +113,19 @@ QuantX is actively tested on:
 Please report issues specific to your OS or environment in the Issues tab.
 🪪 License
 
-QuantX is released under a custom open-source license:
+QuantX is released under the Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) license.
 
-    ✅ You may use, modify, and extend the source code.
+    ✅ You may use, modify, and redistribute the source code for non-commercial purposes, provided that attribution is given.
 
-    ❌ You may not release derivative non-open-source tools built on top of this project for commercial purposes.
+    ❌ Commercial use of this software is not permitted without prior written permission.
 
-A formal LICENSE file will be added before version 1.0.
+If you are interested in commercial licensing options or partnerships, please contact us at:
+
+📫 QuantDIY@protonmail.com
+
+📄 View the full legal license text here: CC BY-NC 4.0 License
+
+A formal LICENSE file is included in the repository root.
 🤝 Contributing
 
 We welcome contributors of all experience levels!
