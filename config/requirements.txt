@@ -1,5 +1,0 @@
-Flask
-pytest
-python-dotenv
-requests
-schedule
