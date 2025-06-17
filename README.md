@@ -113,19 +113,35 @@ QuantX is actively tested on:
 Please report issues specific to your OS or environment in the Issues tab.
 🪪 License
 
-QuantX is released under the Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) license.
+QuantX is released under a dual-license model:
 
-    ✅ You may use, modify, and redistribute the source code for non-commercial purposes, provided that attribution is given.
+    Default license: Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
 
-    ❌ Commercial use of this software is not permitted without prior written permission.
+    Commercial license: Available upon request
 
-If you are interested in commercial licensing options or partnerships, please contact us at:
+✅ Non-Commercial Use
+
+You may use, modify, and redistribute the source code for non-commercial purposes, provided that:
+
+    Proper attribution is given (see CC BY-NC 4.0)
+
+    You do not use the software in commercial projects
+
+💼 Commercial Licensing
+
+If you wish to use QuantX in a commercial context, including but not limited to:
+
+    Integrating it into a paid product or service
+
+    Using it for proprietary trading platforms
+
+    Distributing modified versions with monetization
+
+Please contact us to obtain a commercial license:
 
 📫 QuantDIY@protonmail.com
 
-📄 View the full legal license text here: CC BY-NC 4.0 License
-
-A formal LICENSE file is included in the repository root.
+A formal LICENSE file is included in the repository root containing the full CC BY-NC 4.0 text. Commercial license terms are negotiated individually.
 🤝 Contributing
 
 We welcome contributors of all experience levels!
