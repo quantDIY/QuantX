@@ -6,8 +6,8 @@
   "scripts": {
     "start": "electron . --no-sandbox",
     "test": "jest --config config/jest.config.js",
-    "dev": "vite",
-    "build": "vite build"
+    "dev": "vite --config config/vite.config.js",
+    "build": "vite build --config config/vite.config.js"
   },
   "keywords": [],
   "author": "QuantX",
