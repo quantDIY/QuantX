@@ -4,7 +4,7 @@
   "description": "QuantX Electron Frontend",
   "main": "electron/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron . --no-sandbox",
     "test": "jest --config config/jest.config.js",
     "dev": "vite",
     "build": "vite build"
