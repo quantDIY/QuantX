@@ -76,7 +76,7 @@ The Electron entry point is located at `electron/main.js`. The frontend code res
 This app uses an .env file located in the root directory. You do not need to create or modify this file manually. The app handles .env updates dynamically through the onboarding UI.
 
 This file is included in the repo using placeholder credentials.
-A `.env.example` file is also provided for reference and can be copied to `.env` when setting up the project locally.
+A `.env.example` file is provided in the root directory. You may copy it to `.env` to configure your local environment.
 
 ### Running Tests
 
