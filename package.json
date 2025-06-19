@@ -5,6 +5,7 @@
   "main": "electron/main.js",
   "scripts": {
     "start": "electron . --no-sandbox",
+    "start:all": "concurrently \"FLASK_APP=backend/app.py FLASK_ENV=development PYTHONPATH=./backend flask run --port=5000\" \"npm run dev\"",
     "test": "jest --config config/jest.config.js",
     "dev": "vite --config config/vite.config.js",
     "build": "vite build --config config/vite.config.js"
@@ -15,6 +16,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.5.2",
     "autoprefixer": "^10.4.21",
+    "concurrently": "^9.1.2",
     "electron": "^30.0.0",
     "jest": "^29.7.0",
     "postcss": "^8.5.4",

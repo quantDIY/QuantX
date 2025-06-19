@@ -1,4 +1,18 @@
 import os
+import sys
+from dotenv import load_dotenv
+
+# Fix import paths
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
+# Define key paths
+ENV_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.env'))
+LOG_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../logs'))
+
+# Load environment
+load_dotenv(dotenv_path=ENV_PATH, override=True)
+
+import os
 import time
 from dotenv import load_dotenv
 import pytest

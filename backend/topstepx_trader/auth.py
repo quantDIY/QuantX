@@ -1,6 +1,7 @@
 import requests
-from dotenv import set_key
-from backend.topstepx_trader import config
+from dotenv import load_dotenv
+from topstepx_trader import config
+from topstepx_trader.env_utils import update_env_vars
 
 def authenticate():
     url = f"{config.BASE_API_URL}/api/Auth/loginKey"
@@ -21,7 +22,7 @@ def authenticate():
         result = response.json()
         token = result.get("token")
         if token:
-            set_key(".env", "SESSION_TOKEN", token)
+            update_env_vars({"SESSION_TOKEN": token})
             return token
     raise Exception("Authentication failed")
 
@@ -43,6 +44,6 @@ def validate_token():
     if response.ok:
         result = response.json()
         if result.get("success") and result.get("newToken"):
-            set_key(".env", "SESSION_TOKEN", result["newToken"])
+            update_env_vars({"SESSION_TOKEN": result["newToken"]})
             return True
     return False

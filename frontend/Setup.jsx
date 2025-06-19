@@ -5,18 +5,27 @@ function Setup({ onCompleted }) {
   const [username, setUsername] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [remember, setRemember] = useState(false);
-  const [accounts, setAccounts] = useState(null); // start as null
+  const [accounts, setAccounts] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await window.electron.saveConfig({ USERNAME: username, API_KEY: apiKey });
-    const resp = await window.electron.searchAccounts();
-    // Ensure proper structure
-    const accList = Array.isArray(resp?.accounts) ? resp.accounts : resp;
-    setAccounts(accList);
+    setError(null);
+    try {
+      const result = await window.electron.saveConfig({ USERNAME: username, API_KEY: apiKey });
+      if (result.status !== 'ok') {
+        throw new Error(result.message || 'Failed to save credentials.');
+      }
+
+      const resp = await window.electron.searchAccounts();
+      const accList = Array.isArray(resp?.accounts) ? resp.accounts : resp;
+      setAccounts(accList);
+    } catch (err) {
+      console.error("Setup failed:", err);
+      setError(err.message || 'Something went wrong.');
+    }
   };
 
-  // Only render AccountSelect once accounts are loaded as a non-empty array
   if (Array.isArray(accounts) && accounts.length > 0) {
     return (
       <AccountSelect
@@ -47,7 +56,7 @@ function Setup({ onCompleted }) {
         <span>Remember</span>
       </label>
       <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Submit</button>
-      {/* Show feedback if no accounts come back */}
+      {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
       {Array.isArray(accounts) && accounts.length === 0 && (
         <p className="text-red-500 mt-4 text-center">No accounts found — check your credentials.</p>
       )}
