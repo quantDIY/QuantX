@@ -3,18 +3,23 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
+
 const rootDir = path.join(__dirname, '..');
 app.commandLine.appendSwitch('no-sandbox');
 
 ipcMain.handle('save-config', async (_, config) => {
-  const envTarget = path.join(rootDir, '.env');
-  const lines = Object.entries(config).map(([k, v]) => `${k}=${v}`).join('\n');
-  fs.appendFileSync(envTarget, '\n' + lines);
+  try {
+    await axios.post('http://127.0.0.1:5000/api/save-creds', config);
+    return { status: 'ok' };
+  } catch (error) {
+    console.error("Failed to save config via backend:", error);
+    return { status: 'error', message: error.message };
+  }
 });
 
 ipcMain.handle('search-accounts', async () => {
   const resp = await axios.post('http://127.0.0.1:5000/api/accounts');
-  return resp.data.accounts;  // <-- this line changed
+  return resp.data.accounts;
 });
 
 ipcMain.handle('run-tests', async () => {

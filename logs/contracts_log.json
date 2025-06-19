@@ -1,34 +1,3 @@
 [
-  {
-    "id": "CON.F.US.ENQ.M25",
-    "name": "NQM5",
-    "description": "E-mini NASDAQ-100: June 2025",
-    "tickSize": 0.25,
-    "tickValue": 5,
-    "activeContract": true
-  },
-  {
-    "id": "CON.F.US.MNQ.M25",
-    "name": "MNQM5",
-    "description": "Micro E-mini Nasdaq-100: June 2025",
-    "tickSize": 0.25,
-    "tickValue": 0.5,
-    "activeContract": true
-  },
-  {
-    "id": "CON.F.US.NQG.N25",
-    "name": "QGN5",
-    "description": "E-Mini Natural Gas: July 2025",
-    "tickSize": 0.005,
-    "tickValue": 12.5,
-    "activeContract": true
-  },
-  {
-    "id": "CON.F.US.NQM.N25",
-    "name": "QMN5",
-    "description": "E-Mini Crude Oil: July 2025",
-    "tickSize": 0.025,
-    "tickValue": 12.5,
-    "activeContract": true
-  }
+
 ]
