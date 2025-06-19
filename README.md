@@ -153,7 +153,7 @@ Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0). You may use, modi
 Contact us at [**QuantDIY@protonmail.com**](mailto:QuantDIY@protonmail.com) to:
 
 * Integrate into paid tools
-* Use for proprietary trading
+* Use for proprietary trading firms
 * Monetize modified versions
 
 LICENSE file is included in the repo.
