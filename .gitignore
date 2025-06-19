@@ -10,3 +10,4 @@ os
 
 logs/*.json
 .env
+.env
