@@ -4,10 +4,6 @@ __pycache__/
 .vscode/
 *.log
 .DS_Store
-
 .env
 os
-
 logs/*.json
-.env
-.env
