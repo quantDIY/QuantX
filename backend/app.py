@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from topstepx_trader.accounts import search_accounts
 from topstepx_trader.env_utils import update_env_vars
+from topstepx_trader.auth import authenticate
 import os
 
 app = Flask(__name__)
@@ -20,4 +21,8 @@ def save_creds():
         "API_KEY": data["API_KEY"]
     })
 
-    return jsonify({"status": "ok"})
+    try:
+        token = authenticate()
+        return jsonify({"status": "ok", "token": token})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

@@ -1,8 +1,18 @@
 module.exports = {
-  content: ["../frontend/**/*.{js,jsx,ts,tsx,html}"],
-  darkMode: 'class', // or 'media' if preferred
+  content: [
+    "../frontend/**/*.{js,jsx,ts,tsx,html,css}",
+    "../frontend/styles/**/*.css",
+  ],
+  darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        border: "var(--border)",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        ring: "var(--ring)",
+      },
+    },
   },
   plugins: [],
 };

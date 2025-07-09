@@ -4,6 +4,7 @@ from topstepx_trader import config
 from topstepx_trader.env_utils import update_env_vars
 
 def authenticate():
+    load_dotenv(override=True)  # Ensure updated env vars are loaded
     url = f"{config.BASE_API_URL}/api/Auth/loginKey"
     data = {"userName": config.USERNAME, "apiKey": config.API_KEY}
     headers = {
@@ -27,6 +28,7 @@ def authenticate():
     raise Exception("Authentication failed")
 
 def validate_token():
+    load_dotenv(override=True)  # Also ensure latest token is validated
     url = f"{config.BASE_API_URL}/api/Auth/validate"
     headers = {
         "accept": "text/plain",
