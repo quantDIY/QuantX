@@ -1,11 +1,17 @@
 // config/postcss.config.js
-const path = require('path');
-const tailwindcss = require('@tailwindcss/postcss');
 const autoprefixer = require('autoprefixer');
+const tailwindcss = require('@tailwindcss/postcss');
 
 module.exports = {
   plugins: [
-    tailwindcss(path.resolve(__dirname, 'tailwind.config.js')),
+    tailwindcss,
     autoprefixer,
   ],
 };
+
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}

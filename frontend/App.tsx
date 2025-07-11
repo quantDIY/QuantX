@@ -35,17 +35,17 @@ export default function App() {
     setIsLoading(false)
   }, [])
 
-  const handleSignIn = (credentials: { username: string; apiKey: string; rememberMe: boolean }) => {
+  const handleSignIn = (username: string, apiKey: string, rememberMe: boolean) => {
     const userData = {
-      username: credentials.username,
-      apiKey: credentials.apiKey,
-      rememberMe: credentials.rememberMe
+      username: username,
+      apiKey: apiKey,
+      rememberMe: rememberMe
     }
     
     setUser(userData)
     
     // Store credentials if remember me is selected
-    if (credentials.rememberMe) {
+    if (rememberMe) {
       localStorage.setItem('quantx-user', JSON.stringify(userData))
     }
   }
@@ -124,7 +124,7 @@ export default function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="quantx-ui-theme">
       {!user ? (
-        <SignIn onSignIn={handleSignIn} />
+        <SignIn onSignIn={handleSignIn} isLoading={false} />
       ) : (
         <div className="min-h-screen bg-background">
           <Header onSignOut={handleSignOut} username={user.username} />

@@ -1,6 +1,6 @@
 {
   "name": "quantx-platform",
-  "version": "0.1.0",
+  "version": "0.0.3",
   "description": "QuantX Electron Frontend",
   "main": "electron/main.js",
   "scripts": {
@@ -13,7 +13,31 @@
   },
   "keywords": [],
   "author": "QuantX",
-  "license": "ISC",
+  "license": "⚠️ NOTICE: Dual Licensing Model
+
+This project, QuantX, is distributed under the terms of the
+Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) license.
+
+Commercial use of this software is prohibited under the CC BY-NC 4.0 license.
+
+To obtain a commercial license for proprietary or revenue-generating use cases,
+please contact the maintainers at: QuantDIY@protonmail.com
+
+The full text of the CC BY-NC 4.0 license follows below.
+
+Creative Commons Attribution-NonCommercial 4.0 International Public License
+
+By exercising the Licensed Rights (defined below), You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution-NonCommercial 4.0 International Public License ("Public License"). If You do not agree to the terms and conditions of this Public License, You cannot exercise any Licensed Rights.
+
+You can find the full legal text here:
+https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+This is a human-readable summary of (and not a substitute for) the license:
+- You may share and adapt the material for any non-commercial purpose, provided you give appropriate credit.
+- No additional restrictions — you may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+- Commercial use is not allowed without permission from the copyright holder.
+
+For commercial licensing, please contact: QuantDIY@protonmail.com",
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -42,7 +66,6 @@
     "@radix-ui/react-toggle": "^1.0.3",
     "@radix-ui/react-toggle-group": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "@tailwindcss/postcss": "^4.1.11",
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -64,6 +87,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -77,7 +101,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "jest": "^29.7.0",
     "postcss": "^8.4.32",
-    "tailwindcss": "^4.0.0-alpha.20",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   },
