@@ -1,3 +1,4 @@
+// App.tsx
 import { useState, useEffect } from 'react'
 import { ThemeProvider } from './components/theme-provider'
 import { Header } from './components/header'
@@ -16,8 +17,8 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [activeView, setActiveView] = useState('accounts')
+  const [error, setError] = useState<string | null>(null)
 
-  // Check for stored credentials on app load
   useEffect(() => {
     const storedUser = localStorage.getItem('quantx-user')
     if (storedUser) {
@@ -35,24 +36,35 @@ export default function App() {
     setIsLoading(false)
   }, [])
 
-  const handleSignIn = (username: string, apiKey: string, rememberMe: boolean) => {
-    const userData = {
-      username: username,
-      apiKey: apiKey,
-      rememberMe: rememberMe
+  // MODIFIED: Actually POST to Flask backend for sign-in
+  const handleSignIn = async (username: string, apiKey: string, rememberMe: boolean) => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const res = await fetch('http://localhost:5000/api/save-creds', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ USERNAME: username, API_KEY: apiKey }),
+      })
+      const data = await res.json()
+      if (data.status === 'ok') {
+        const userData = { username, apiKey, rememberMe }
+        setUser(userData)
+        if (rememberMe) {
+          localStorage.setItem('quantx-user', JSON.stringify(userData))
+        }
+      } else {
+        setError(data.error || 'Auth failed')
+      }
+    } catch (e: any) {
+      setError('Connection error: ' + e.message)
     }
-    
-    setUser(userData)
-    
-    // Store credentials if remember me is selected
-    if (rememberMe) {
-      localStorage.setItem('quantx-user', JSON.stringify(userData))
-    }
+    setIsLoading(false)
   }
 
   const handleSignOut = () => {
     setUser(null)
-    setActiveView('accounts') // Reset to default view
+    setActiveView('accounts')
     localStorage.removeItem('quantx-user')
   }
 
@@ -61,53 +73,22 @@ export default function App() {
       case 'accounts':
         return <Accounts />
       case 'active-strategies':
-        return (
-          <PlaceholderView
-            title="Active Strategies"
-            description="Monitor and manage your running trading strategies"
-          />
-        )
+        return <PlaceholderView title="Active Strategies" description="Monitor and manage your running trading strategies" />
       case 'strategy-builder':
-        return (
-          <PlaceholderView
-            title="Strategy Builder"
-            description="Create, edit, and optimize your trading strategies"
-          />
-        )
+        return <PlaceholderView title="Strategy Builder" description="Create, edit, and optimize your trading strategies" />
       case 'backtesting':
-        return (
-          <PlaceholderView
-            title="Backtesting"
-            description="Test your strategies against historical market data"
-          />
-        )
+        return <PlaceholderView title="Backtesting" description="Test your strategies against historical market data" />
       case 'indicators':
-        return (
-          <PlaceholderView
-            title="Indicators"
-            description="Technical analysis tools and custom indicators"
-          />
-        )
+        return <PlaceholderView title="Indicators" description="Technical analysis tools and custom indicators" />
       case 'data':
-        return (
-          <PlaceholderView
-            title="Data"
-            description="Market data feeds, historical data, and analytics"
-          />
-        )
+        return <PlaceholderView title="Data" description="Market data feeds, historical data, and analytics" />
       case 'settings':
-        return (
-          <PlaceholderView
-            title="Settings"
-            description="Configure your QuantX application preferences"
-          />
-        )
+        return <PlaceholderView title="Settings" description="Configure your QuantX application preferences" />
       default:
         return <Accounts />
     }
   }
 
-  // Show loading state while checking for stored credentials
   if (isLoading) {
     return (
       <ThemeProvider defaultTheme="dark" storageKey="quantx-ui-theme">
@@ -124,7 +105,7 @@ export default function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="quantx-ui-theme">
       {!user ? (
-        <SignIn onSignIn={handleSignIn} isLoading={false} />
+        <SignIn onSignIn={handleSignIn} isLoading={isLoading} error={error || undefined} />
       ) : (
         <div className="min-h-screen bg-background">
           <Header onSignOut={handleSignOut} username={user.username} />

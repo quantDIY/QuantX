@@ -1,51 +1,40 @@
+# backend/topstepx_trader/auth.py
+
 import requests
 from dotenv import load_dotenv
 from topstepx_trader import config
-from topstepx_trader.env_utils import update_env_vars
+from topstepx_trader.redis_utils import set_str, get_str
 
 def authenticate():
-    load_dotenv(override=True)  # Ensure updated env vars are loaded
+    load_dotenv(override=True)
     url = f"{config.BASE_API_URL}/api/Auth/loginKey"
     data = {"userName": config.USERNAME, "apiKey": config.API_KEY}
     headers = {
         "accept": "text/plain",
         "Content-Type": "application/json"
     }
-    print(f"[DEBUG] Authenticating with USERNAME={config.USERNAME}, API_KEY={'*' * len(config.API_KEY) if config.API_KEY else None}")
     response = requests.post(url, headers=headers, json=data)
-    print(f"[DEBUG] Status Code: {response.status_code}")
-    try:
-        print(f"[DEBUG] Response Body: {response.json()}")
-    except Exception as e:
-        print(f"[DEBUG] Non-JSON response: {response.text}")
-
     if response.ok:
         result = response.json()
         token = result.get("token")
         if token:
-            update_env_vars({"SESSION_TOKEN": token})
+            set_str("SESSION_TOKEN", token)
             return token
     raise Exception("Authentication failed")
 
 def validate_token():
-    load_dotenv(override=True)  # Also ensure latest token is validated
+    load_dotenv(override=True)
     url = f"{config.BASE_API_URL}/api/Auth/validate"
+    session_token = get_str("SESSION_TOKEN")
     headers = {
         "accept": "text/plain",
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {config.SESSION_TOKEN}"
+        "Authorization": f"Bearer {session_token}"
     }
-    print(f"[DEBUG] Validating token: {config.SESSION_TOKEN[:10]}...")
     response = requests.post(url, headers=headers)
-    print(f"[DEBUG] Status Code: {response.status_code}")
-    try:
-        print(f"[DEBUG] Response Body: {response.json()}")
-    except Exception as e:
-        print(f"[DEBUG] Non-JSON response: {response.text}")
-
     if response.ok:
         result = response.json()
         if result.get("success") and result.get("newToken"):
-            update_env_vars({"SESSION_TOKEN": result["newToken"]})
+            set_str("SESSION_TOKEN", result["newToken"])
             return True
     return False

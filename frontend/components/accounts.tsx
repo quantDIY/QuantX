@@ -1,235 +1,216 @@
 // components/accounts.tsx
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
-import { Separator } from './ui/separator'
-import {
-  DollarSign,
-  TrendingUp,
-  TrendingDown,
-  Shield,
-  Activity,
-  AlertTriangle
-} from 'lucide-react'
-
-interface Position {
-  symbol: string
-  quantity: number
-  side: 'long' | 'short'
-  unrealizedPnL: number
-}
+import { RefreshCw, AlertTriangle, TrendingUp, TrendingDown, Users } from 'lucide-react'
+import io from 'socket.io-client'
 
 interface Account {
-  id: string
-  accountNumber: string
-  nickname: string
-  name: string
+  id: string | number
+  name?: string // from backend
+  number?: string // not all backends provide this
+  nickname?: string
   balance: number
-  dailyPnL: number
-  maxLossLimit: number
-  currentLossFromMax: number
-  positions: Position[]
-  status: 'active' | 'evaluation' | 'practice'
+  dailyPnL?: number
+  maxLossLimit?: number
+  positions?: number
+  status?: 'active' | 'demo' | 'disabled' | string
+  canTrade?: boolean
 }
+
+const socket = io('http://localhost:5000') // adjust if needed
 
 export function Accounts() {
   const [accounts, setAccounts] = useState<Account[]>([])
-  const [loading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date())
 
   useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const res = await fetch('/api/accounts', { method: 'POST' })
-        const result = await res.json()
-        const enrichedAccounts = result.accounts.map((account: any, index: number) => ({
-          id: `TST-${index + 1}`,
-          accountNumber: account.accountNumber,
-          nickname: account.nickname || '—',
-          name: account.accountName || 'TopStep Account',
-          balance: account.balance,
-          dailyPnL: account.dailyPnl,
-          maxLossLimit: account.maxLossLimit || 0,
-          currentLossFromMax: account.lossFromMax || 0,
-          positions: [], // optional: integrate with open positions API
-          status: account.accountStatus?.toLowerCase() || 'practice'
-        }))
-        setAccounts(enrichedAccounts)
-      } catch (error) {
-        console.error('Failed to load accounts', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchAccounts()
+    setIsLoading(true)
+    socket.emit('subscribe_accounts')
+    socket.on('accounts_update', (data) => {
+      setAccounts(Array.isArray(data) ? data : [])
+      setLastUpdated(new Date())
+      setIsLoading(false)
+    })
+    return () => { socket.off('accounts_update') }
   }, [])
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-success text-white'
-      case 'evaluation': return 'bg-warning text-white'
-      case 'practice': return 'bg-info text-white'
-      default: return 'bg-secondary'
-    }
+  // If you want to support manual reload (triggers server to refresh data)
+  const handleManualRefresh = () => {
+    setIsLoading(true)
+    socket.emit('refresh_accounts')
   }
 
-  const getPnLColor = (pnl: number) => {
+  const handleFlattenAccount = async (accountId: string | number) => {
+    // Emits a "flatten" event to backend. Backend should listen & process.
+    socket.emit('flatten_account', { accountId })
+  }
+
+  const formatCurrency = (amount?: number) => {
+    if (typeof amount !== 'number') return '--'
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount)
+  }
+
+  const getPnLColor = (pnl?: number) => {
+    if (pnl === undefined) return 'text-muted-foreground'
     if (pnl > 0) return 'text-success'
     if (pnl < 0) return 'text-destructive'
     return 'text-muted-foreground'
   }
 
-  const handleFlattenAccount = (accountId: string) => {
-    alert(`Account ${accountId}: Flatten positions, cancel orders, and disconnect strategies initiated.`)
+  const getPnLIcon = (pnl?: number) => {
+    if (pnl === undefined) return null
+    if (pnl > 0) return <TrendingUp className="h-4 w-4" />
+    if (pnl < 0) return <TrendingDown className="h-4 w-4" />
+    return null
   }
 
-  if (loading) {
+  const getStatusBadge = (status?: string, canTrade?: boolean) => {
+    if (canTrade === false) return <Badge variant="destructive">Disabled</Badge>
+    switch (status) {
+      case 'active':
+        return <Badge variant="default" className="bg-success text-white">Live</Badge>
+      case 'demo':
+        return <Badge variant="secondary">Practice</Badge>
+      case 'disabled':
+        return <Badge variant="destructive">Disabled</Badge>
+      default:
+        return <Badge variant="outline">Unknown</Badge>
+    }
+  }
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-muted-foreground">Loading accounts...</div>
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl text-brand-primary">Accounts snapshot</h1>
+            <p className="text-muted-foreground mt-1">Loading account data...</p>
+          </div>
+          <RefreshCw className="h-5 w-5 animate-spin text-muted-foreground" />
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => (
+            <Card key={i} className="border-2 border-muted animate-pulse">
+              <CardHeader className="space-y-0 pb-4">
+                <div className="h-4 bg-muted rounded w-3/4"></div>
+                <div className="h-3 bg-muted rounded w-1/2"></div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <div className="h-3 bg-muted rounded"></div>
+                  <div className="h-3 bg-muted rounded w-2/3"></div>
+                  <div className="h-3 bg-muted rounded w-1/2"></div>
+                </div>
+                <div className="h-8 bg-muted rounded"></div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-6 space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl text-brand-primary">Accounts snapshot</h1>
-        <div className="flex items-center gap-2 text-sm text-success">
-          <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
-          <span>{accounts.length} accounts connected</span>
+        <div>
+          <h1 className="text-2xl text-brand-primary">Accounts snapshot</h1>
+          <p className="text-muted-foreground mt-1">
+            Last updated: {lastUpdated.toLocaleTimeString()}
+          </p>
         </div>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={handleManualRefresh}
+          disabled={isLoading}
+          className="gap-2"
+        >
+          <RefreshCw className={cn("h-4 w-4", isLoading && "animate-spin")} />
+          Refresh
+        </Button>
       </div>
 
-      <div className="grid gap-4">
+      {/* Account Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {accounts.map((account) => (
-          <Card key={account.id} className="border-2 border-brand-primary/10 shadow-lg">
-            <CardHeader className="pb-2">
+          <Card key={account.id} className="border-2 border-brand-primary/10 hover:border-brand-primary/20 transition-colors">
+            <CardHeader className="space-y-0 pb-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="flex flex-col">
-                    <CardTitle className="text-lg">{account.name}</CardTitle>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <span>#{account.accountNumber}</span>
-                      <span>•</span>
-                      <span>{account.nickname}</span>
-                    </div>
-                  </div>
-                  <Badge className={getStatusColor(account.status)}>
-                    {account.status.toUpperCase()}
-                  </Badge>
-                </div>
-                <div className="text-sm text-muted-foreground">ID: {account.id}</div>
+                <CardTitle className="text-lg">
+                  #{account.name || account.number || account.id}
+                  {account.nickname ? ` • ${account.nickname}` : ''}
+                </CardTitle>
+                {getStatusBadge(account.status, account.canTrade)}
               </div>
             </CardHeader>
-
-            <CardContent className="space-y-3 pt-0">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <DollarSign className="h-4 w-4" />
-                    <span>Account Balance</span>
-                  </div>
-                  <div className="text-lg font-semibold">
-                    ${account.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    {account.dailyPnL >= 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
-                    <span>Daily P&L</span>
-                  </div>
-                  <div className={`text-lg font-semibold ${getPnLColor(account.dailyPnL)}`}>
-                    {account.dailyPnL >= 0 ? '+' : ''}${account.dailyPnL.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Shield className="h-4 w-4" />
-                    <span>Max Loss Limit</span>
-                  </div>
-                  <div className="text-lg font-semibold">
-                    ${account.maxLossLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </div>
-                  <div className="text-xs text-destructive">
-                    Used: ${account.currentLossFromMax.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Activity className="h-4 w-4" />
-                    <span>Positions</span>
-                  </div>
-                  <div className="text-lg font-semibold">
-                    {account.positions.length}
-                  </div>
+            <CardContent className="space-y-4">
+              <div className="space-y-1">
+                <div className="text-sm text-muted-foreground">Account Balance</div>
+                <div className="text-xl font-semibold">
+                  {formatCurrency(account.balance)}
                 </div>
               </div>
-
-              {account.positions.length > 0 && (
-                <>
-                  <Separator />
-                  <div>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Current Positions</h4>
-                    <div className="space-y-1">
-                      {account.positions.map((position, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded-md">
-                          <div className="flex items-center gap-3">
-                            <span className="font-medium">{position.symbol}</span>
-                            <Badge variant={position.side === 'long' ? 'default' : 'secondary'}>
-                              {position.quantity} {position.side}
-                            </Badge>
-                          </div>
-                          <div className={`font-medium ${getPnLColor(position.unrealizedPnL)}`}>
-                            {position.unrealizedPnL >= 0 ? '+' : ''}${position.unrealizedPnL.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <AlertTriangle className="h-4 w-4" />
-                  <span>Emergency actions will close all positions and stop strategies</span>
+              <div className="space-y-1">
+                <div className="text-sm text-muted-foreground">Daily P&L</div>
+                <div className={cn("text-lg font-semibold flex items-center gap-1", getPnLColor(account.dailyPnL))}>
+                  {getPnLIcon(account.dailyPnL)}
+                  {formatCurrency(account.dailyPnL)}
                 </div>
-                <Button variant="destructive" onClick={() => handleFlattenAccount(account.id)} className="ml-4">
-                  Flatten, Cancel Open Orders and Disconnect Active Strategies
-                </Button>
               </div>
+              <div className="space-y-1">
+                <div className="text-sm text-muted-foreground">Maximum Loss Limit</div>
+                <div className="text-lg font-semibold text-warning">
+                  {formatCurrency(account.maxLossLimit)}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <div className="text-sm text-muted-foreground">Current Positions</div>
+                <div className="text-lg font-semibold">
+                  {account.positions || 0} {account.positions === 1 ? 'position' : 'positions'}
+                </div>
+              </div>
+              <Button
+                variant="destructive"
+                size="sm"
+                className="w-full mt-4"
+                onClick={() => handleFlattenAccount(account.id)}
+                disabled={account.positions === 0}
+              >
+                <AlertTriangle className="h-4 w-4 mr-2" />
+                Flatten, Cancel Open Orders and Disconnect Active Strategies
+              </Button>
             </CardContent>
           </Card>
         ))}
       </div>
-
-      <Card className="bg-muted/30">
-        <CardContent className="pt-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-            <div>
-              <div className="text-2xl font-semibold text-brand-primary">
-                ${accounts.reduce((sum, acc) => sum + acc.balance, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </div>
-              <div className="text-sm text-muted-foreground">Total Balance</div>
-            </div>
-            <div>
-              <div className={`text-2xl font-semibold ${getPnLColor(accounts.reduce((sum, acc) => sum + acc.dailyPnL, 0))}`}>
-                ${accounts.reduce((sum, acc) => sum + acc.dailyPnL, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </div>
-              <div className="text-sm text-muted-foreground">Total Daily P&L</div>
-            </div>
-            <div>
-              <div className="text-2xl font-semibold">
-                {accounts.reduce((sum, acc) => sum + acc.positions.length, 0)}
-              </div>
-              <div className="text-sm text-muted-foreground">Total Positions</div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Empty State */}
+      {accounts.length === 0 && !isLoading && (
+        <Card className="border-2 border-dashed border-muted">
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <Users className="h-12 w-12 text-muted-foreground mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No accounts found</h3>
+            <p className="text-muted-foreground text-center mb-4">
+              Unable to load account data. Please check your API connection.
+            </p>
+            <Button onClick={handleManualRefresh} variant="outline">
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
+}
+
+// Helper
+function cn(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
 }

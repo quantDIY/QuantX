@@ -1,17 +1,12 @@
-// config/postcss.config.js
-const autoprefixer = require('autoprefixer');
-const tailwindcss = require('@tailwindcss/postcss');
+// config/postcss.config.js (ESM format for Vite 5+ and Node 24+)
 
-module.exports = {
+import tailwindcss from '@tailwindcss/postcss'
+import autoprefixer from 'autoprefixer'
+
+export default {
   plugins: [
     tailwindcss,
     autoprefixer,
   ],
-};
-
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
 }
+
