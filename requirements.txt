@@ -3,3 +3,7 @@ pytest
 python-dotenv
 requests
 schedule
+redis
+Flask-SocketIO
+flask-cors
+eventlet
