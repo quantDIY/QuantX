@@ -5,7 +5,7 @@
   "main": "dist-electron/main.js",
   "type": "module",
   "scripts": {
-    "start": "electron .",
+    "start": "electron . --no-sandbox",
     "start:all": "concurrently \"FLASK_APP=backend/app.py FLASK_ENV=development PYTHONPATH=./backend flask run --port=5000\" \"npm run dev\"",
     "test": "jest --config config/jest.config.js",
     "electron": "npm run build && npm run build:electron && npm run start:electron",
