@@ -1,3 +1,4 @@
+
 # 🚀 QuantX
 
 ![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC--BY--NC%204.0-lightgrey.svg)
@@ -15,7 +16,7 @@ QuantX is released under a **dual-license model**:
 
 - **Non-Commercial License:**  
   [Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)  
-  You may use, modify, and redistribute QuantX for personal or academic, non-commercial purposes.  
+  You may use, modify, and redistribute QuantX for personal, research, or academic, non-commercial purposes.  
   **Attribution is required.**
 
 - **Commercial License:**  
@@ -26,13 +27,11 @@ See the **LICENSE** file included in this repository for the full legal text of 
 
 ---
 
-# QuantX
-
 QuantX is a modular, cross-platform desktop trading assistant designed for seamless integration with the [TopstepX API](https://gateway.docs.projectx.com/docs/intro/). Built by traders for traders, QuantX automates connectivity, account management, and live trading—while providing a robust foundation for custom strategies and future-proof expansion.
 
 ---
 
-## 📢 **What’s New in v0.0.3?**
+## 📢 What’s New in v0.0.3?
 
 QuantX v0.0.3 is a **major architectural overhaul**:
 
@@ -47,7 +46,7 @@ QuantX v0.0.3 is a **major architectural overhaul**:
 
 ---
 
-## ⚙️ **Technology Stack**
+## ⚙️ Technology Stack
 
 | Layer           | Technology                       | Purpose                                                        |
 |-----------------|----------------------------------|----------------------------------------------------------------|
@@ -61,8 +60,9 @@ QuantX v0.0.3 is a **major architectural overhaul**:
 
 ---
 
-## 🛠️ **Architecture Overview**
+## 🛠️ Architecture Overview
 
+```
         +-------------------+
         |     Electron      |   (window, menu, IPC)
         +---------+---------+
@@ -75,12 +75,12 @@ QuantX v0.0.3 is a **major architectural overhaul**:
                   |
       +-----------+-----------+
       |                       |
-
-+---------v--------+ +--------v---------+
-| Redis |<--->| Node SignalR |
-| (cache, pub/sub) | | Bridge |
-+------------------+ +------------------+
-(connects to TopstepX)
++---------v--------+   +--------v---------+
+|     Redis        |<->| Node SignalR     |
+| (cache, pub/sub) |   |   Bridge         |
++------------------+   +------------------+
+                       (connects to TopstepX)
+```
 
 - **Electron** = UI only, runs locally, communicates via IPC to backend
 - **Backend** = Python Flask API (handles logic, account mgmt, signals)
@@ -89,155 +89,177 @@ QuantX v0.0.3 is a **major architectural overhaul**:
 
 ---
 
-## 🧑‍💻 **Installation & Setup**
+## 🧑‍💻 Installation & Setup
 
 ### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/quantDIY/QuantX.git
 cd QuantX
+```
 
-2. Python Environment Setup
+### 2. Python Environment Setup
 
+```bash
 python3 -m venv venv
 source venv/bin/activate       # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
+```
 
-3. JavaScript/Node Environment Setup
+### 3. JavaScript/Node Environment Setup
 
+```bash
 npm install
+```
 
-4. Install & Start Redis
+### 4. Install & Start Redis
 
-    Linux/macOS:
+- **Linux/macOS:**  
+  ```bash
+  redis-server
+  ```
+- **Windows:**  
+  Download and run [Redis for Windows](https://github.com/microsoftarchive/redis/releases) or use WSL.
 
-    redis-server
+### 5. (Optional) Node.js SignalR Bridge
 
-    Windows:
-    Download and run Redis for Windows or use WSL.
+If you want live TopstepX market data, run the Node.js bridge (see `/node_bridge/`):
 
-5. (Optional) Node.js SignalR Bridge
-
-If you want live TopstepX market data, run the Node.js bridge (see /node_bridge/):
-
+```bash
 cd node_bridge
 npm install
 node bridge.js
+```
 
-6. Build the Frontend
+### 6. Build the Frontend
 
+```bash
 npm run build
+```
 
-7. Build Electron
+### 7. Build Electron
 
+```bash
 npm run build:electron
+```
 
-🏁 Running QuantX Locally
+---
+
+## 🏁 Running QuantX Locally
 
 You can start all services for development in parallel with:
 
+```bash
 npm run start:all
+```
 
-Or manually, in separate shells:
+**Or manually, in separate shells:**
 
-Shell 1: Start Python Backend
-
+**Shell 1: Start Python Backend**
+```bash
 source venv/bin/activate   # or venv\Scripts\activate on Windows
 FLASK_APP=backend/app.py FLASK_ENV=development PYTHONPATH=./backend flask run --port=5000
+```
 
-Shell 2: Start Redis
-
+**Shell 2: Start Redis**
+```bash
 redis-server
+```
 
-Shell 3: Start Node Bridge (if using)
-
+**Shell 3: Start Node Bridge (if using)**
+```bash
 cd node_bridge
 node bridge.js
+```
 
-Shell 4: Launch Electron
-
+**Shell 4: Launch Electron**
+```bash
 npm run start:electron
+```
 
-📝 .env File
+---
 
-QuantX uses a .env in the project root for sensitive info.
+## 📝 .env File
+
+QuantX uses a `.env` in the project root for sensitive info.  
 A sample is provided:
 
+```bash
 cp .env.example .env
+```
 
-The onboarding flow will auto-update this file.
-📊 Running Tests
+**The onboarding flow will auto-update this file.**
 
-JS (Jest):
+---
 
+## 📊 Running Tests
+
+**JavaScript (Jest):**
+```bash
 npm test
-
-Python (Pytest):
-
+```
+**Python (Pytest):**
+```bash
 pytest tests/python
+```
 
-🖥️ Supported Platforms
+---
 
-    macOS (Apple Silicon & Intel)
+## 🖥️ Supported Platforms
 
-    Ubuntu Linux
+- macOS (Apple Silicon & Intel)
+- Ubuntu Linux
+- Windows 10+
 
-    Windows 10+
+---
 
-📢 Changelog Since v0.0.2
+## 📢 Changelog Since v0.0.2
 
-    Major refactor to Electron shell—modern, native desktop feel
+- Major refactor to Electron shell—modern, native desktop feel
+- New frontend: Vite + React + TypeScript
+- Python backend refactored for clarity and extensibility
+- Redis introduced for ultra-fast caching and event bus
+- Node SignalR bridge for stable, real-time TopstepX data
+- Clean build scripts and local-only, dev-friendly workflow
+- Easy extension: add new routes, strategies, and UI features quickly
 
-    New frontend: Vite + React + TypeScript
+---
 
-    Python backend refactored for clarity and extensibility
-
-    Redis introduced for ultra-fast caching and event bus
-
-    Node SignalR bridge for stable, real-time TopstepX data
-
-    Clean build scripts and local-only, dev-friendly workflow
-
-    Easy extension: add new routes, strategies, and UI features quickly
-
-🚪 License Details
+## 🚪 License Details
 
 QuantX is dual-licensed:
-Non-Commercial Use
 
-    License: CC BY-NC 4.0
+### Non-Commercial Use
 
-    You may use, modify, and redistribute QuantX for personal, academic, or non-commercial purposes.
+- **License:** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
+- You may use, modify, and redistribute QuantX **for personal, academic, or non-commercial purposes**.
+- **Attribution required:**  
+  Cite "QuantX – QuantDIY" in derived works, research, or educational use.
 
-    Attribution required:
-    Cite "QuantX – QuantDIY" in derived works, research, or educational use.
+### Commercial Licensing
 
-Commercial Licensing
+- **Commercial/proprietary use requires a separate license.**
+- This includes (but is not limited to):
+  - Integration with paid tools
+  - Use by proprietary trading firms
+  - Monetization or redistribution in commercial software
+- **Contact:** [QuantDIY@protonmail.com](mailto:QuantDIY@protonmail.com) for terms and pricing.
 
-    Commercial/proprietary use requires a separate license.
+> **The LICENSE file in this repo contains the full legal text for both licenses. Please read it before use.**
 
-    This includes (but is not limited to):
+---
 
-        Integration with paid tools
-
-        Use by proprietary trading firms
-
-        Monetization or redistribution in commercial software
-
-    Contact: QuantDIY@protonmail.com for terms and pricing.
-
-    The LICENSE file in this repo contains the full legal text for both licenses. Please read it before use.
-
-🤝 Contributing
+## 🤝 Contributing
 
 We love contributors!
 
-    Fork, branch, code, PR!
+- Fork, branch, code, PR!
+- See `.github/CONTRIBUTING.md` for more details.
 
-    See .github/CONTRIBUTING.md for more details.
+---
 
-🌟 Thanks
+## 🌟 Thanks
 
 Big shoutout to the TopstepX developer community and all testers for making QuantX better with every release!
 
-For questions or support, open an Issue or email QuantDIY@protonmail.com
+For questions or support, open an Issue or email [QuantDIY@protonmail.com](mailto:QuantDIY@protonmail.com)
