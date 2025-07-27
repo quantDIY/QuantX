@@ -6,14 +6,15 @@
   "type": "module",
   "scripts": {
     "start": "electron . --no-sandbox",
-    "start:all": "concurrently \"FLASK_APP=backend/app.py FLASK_ENV=development PYTHONPATH=./backend flask run --port=5000\" \"npm run dev\"",
+    "start:all": "concurrently \"FLASK_APP=backend/app.py FLASK_ENV=development PYTHONPATH=./backend flask run --port=5999\" \"npm run dev\"",
     "test": "jest --config config/jest.config.js",
     "electron": "npm run build && npm run build:electron && npm run start:electron",
     "dev:electron": "ts-node electron/main.ts",
     "build:electron": "tsc --project tsconfig.electron.json",
     "start:electron": "electron dist-electron/main.js",
     "dev": "vite --config config/vite.config.ts",
-    "build": "vite build --config config/vite.config.ts"
+    "build": "vite build --config config/vite.config.ts",
+    "start:browser": "vite --config config/vite.config.ts --port 5173 --host"
   },
   "keywords": [],
   "author": "QuantX",

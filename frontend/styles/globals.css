@@ -301,3 +301,21 @@
 html {
   font-size: var(--font-size);
 }
+
+/* --- QuantX Sidebar Bulletproof Width Override --- */
+.quantx-sidebar-unique {
+  width: 150px !important;     /* Expanded width (matches Tailwind w-32) */
+  min-width: 150px !important;  /* Prevents sidebar shrinking */
+  max-width: 200px !important; /* Safety max */
+  box-sizing: border-box;
+  background: var(--sidebar, #fafcff);
+  transition: width 0.3s cubic-bezier(.4,0,.2,1);
+  z-index: 10;
+  position: relative;
+}
+
+.quantx-sidebar-collapsed {
+  width: 32px !important;      /* Collapsed state */
+  min-width: 50px !important;
+  max-width: 64px !important;
+}

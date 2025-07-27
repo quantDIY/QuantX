@@ -1,9 +1,11 @@
-// App.tsx
+// frontend/App.tsx
+
 import { useState, useEffect } from 'react'
 import { ThemeProvider } from './components/theme-provider'
 import { Header } from './components/header'
 import { Sidebar } from './components/sidebar'
 import { Accounts } from './components/accounts'
+import { Dashboard } from './components/dashboard'
 import { PlaceholderView } from './components/placeholder-view'
 import { SignIn } from './components/signin'
 
@@ -16,7 +18,7 @@ interface User {
 export default function App() {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [activeView, setActiveView] = useState('accounts')
+  const [activeView, setActiveView] = useState('dashboard')
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -36,7 +38,6 @@ export default function App() {
     setIsLoading(false)
   }, [])
 
-  // MODIFIED: Actually POST to Flask backend for sign-in
   const handleSignIn = async (username: string, apiKey: string, rememberMe: boolean) => {
     setIsLoading(true)
     setError(null)
@@ -64,12 +65,14 @@ export default function App() {
 
   const handleSignOut = () => {
     setUser(null)
-    setActiveView('accounts')
+    setActiveView('dashboard')
     localStorage.removeItem('quantx-user')
   }
 
   const renderActiveView = () => {
     switch (activeView) {
+      case 'dashboard':
+        return <Dashboard />
       case 'accounts':
         return <Accounts />
       case 'active-strategies':
@@ -85,7 +88,7 @@ export default function App() {
       case 'settings':
         return <PlaceholderView title="Settings" description="Configure your QuantX application preferences" />
       default:
-        return <Accounts />
+        return <Dashboard />
     }
   }
 

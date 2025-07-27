@@ -44,7 +44,7 @@ ipcMain.handle('save-creds', async (_, creds) => {
 
 ipcMain.handle('get-accounts', async () => {
   try {
-    const res = await axios.get('http://127.0.0.1:5000/api/accounts')
+    const res = await axios.get('http://127.0.0.1:5999/api/accounts')
     return res.data
   } catch {
     return []
