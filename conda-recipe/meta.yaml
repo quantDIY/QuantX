@@ -1,0 +1,75 @@
+# conda-recipe/meta.yaml
+
+package:
+  name: quantx
+  version: 0.0.4
+
+source:
+  path: ../
+
+build:
+  number: 0
+  script: |
+    cd frontend && npm install && npm run build && cd ..
+    pip install .
+
+requirements:
+  build:
+    - python >=3.11
+    - pip
+    - nodejs
+    - npm
+  run:
+    - python >=3.11
+    - flask
+    - flask-socketio
+    - flask-cors
+    - eventlet
+    - redis
+    - h5py
+    - psycopg2
+    - pandas
+    - numpy
+    - scipy
+    - scikit-learn
+    - matplotlib
+    - plotly
+    - statsmodels
+    - ta-lib            # C++ lib
+    - python-ta-lib     # [OPTIONAL] Some builds split this out
+    - gym
+    - keras
+    - tensorflow
+    - pytorch
+    - mlflow
+    - vectorbt
+    - quantlib          # C++ lib
+    - QuantLib          # Python wrapper (Conda-forge has this as QuantLib)
+    - cudatoolkit
+    - cupy
+    - numba
+    - rapids            # meta-package, only if user wants full RAPIDS stack
+    - opengl
+    - pyopengl
+    - jupyter
+    - notebook
+    - postgresql
+    - click
+    - rich
+    - pyzmq
+    - xlwings           # adds Excel Integration to QuantX, to add QuantX to Excel CLI "xlwings addin install"
+
+test:
+  commands:
+    - quantx --help
+    - python -c "import flask; import pandas; import quantx"
+    - jupyter --version
+
+about:
+  home: https://github.com/quantDIY/QuantX
+  license: CC-BY-NC-4.0
+  summary: "QuantX - Open Source Software for the DIY Quant Revolution"
+
+extra:
+  recipe-maintainers:
+    - quantDIY
