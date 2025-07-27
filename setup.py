@@ -17,6 +17,7 @@ setup(
         "gym",
         "h5py",
         "jupyter",
+        "jupyterlab",
         "keras",
         "matplotlib",
         "mlflow",

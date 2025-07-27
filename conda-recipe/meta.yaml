@@ -52,11 +52,18 @@ requirements:
     - opengl
     - pyopengl
     - jupyter
+    - jupyterlab
     - notebook
     - postgresql
     - click
     - rich
     - pyzmq
+    - spyder
+    - vscode
+    - orange3
+    - glueviz
+    - qtconsole
+    - anaconda-navigator
     - xlwings           # adds Excel Integration to QuantX, to add QuantX to Excel CLI "xlwings addin install"
 
 test:
