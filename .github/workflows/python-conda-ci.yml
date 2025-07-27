@@ -26,7 +26,7 @@ jobs:
           auto-update-conda: true
           python-version: "3.11"
           activate-environment: quantx
-          environment-file: conda-recipe/meta.yaml
+          environment-file: environment.yml
 
       - name: Install pip dependencies
         shell: bash -l {0}

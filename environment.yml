@@ -1,0 +1,45 @@
+name: quantx
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - flask
+  - flask-socketio
+  - flask-cors
+  - eventlet
+  - redis
+  - h5py
+  - psycopg2
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - plotly
+  - statsmodels
+  - python-ta-lib
+  - gym
+  - keras
+  - tensorflow
+  - pytorch
+  - mlflow
+  - vectorbt
+  - QuantLib
+  - cudatoolkit
+  - cupy
+  - numba
+  - opengl
+  - pyopengl
+  - jupyter
+  - jupyterlab
+  - notebook
+  - postgresql
+  - click
+  - rich
+  - pyzmq
+  - nodejs
+  - npm
+  - pip:
+      - .
