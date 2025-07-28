@@ -55,6 +55,7 @@ requirements:
     - postgresql
     - click
     - rich
+    - pytest
     - pyzmq
     - spyder
    # - vscode
@@ -65,8 +66,6 @@ requirements:
     - xlwings
 
 test:
-  requires:
-    - pytest
   commands:
     - quantx --help
     - python -c "import flask; import pandas; import quantx"
