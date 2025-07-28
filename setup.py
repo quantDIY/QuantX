@@ -17,6 +17,7 @@ setup(
         "gym",
         "h5py",
         "jupyter",
+        "jupyterlab",
         "keras",
         "matplotlib",
         "mlflow",
@@ -27,19 +28,20 @@ setup(
         "plotly",
         "psycopg2",
         "pyopengl",
-        "python-ta-lib",    # conda-forge: python-ta-lib
+       # "python-ta-lib", 
         "pyzmq",
-        "QuantLib",         # conda-forge: QuantLib
-        "pytorch",
+        "QuantLib",
+      #  "pytorch",
         "redis",
         "rich",
         "scikit-learn",
         "scipy",
         "statsmodels",
         "tensorflow",
+        "torch",
         "vectorbt",
-        "xlwings"
-        # Do not include pip-only packages here!
+        "xlwings",
+        # Do not include pip-only or problematic packages here!
     ],
     entry_points={
         "console_scripts": [

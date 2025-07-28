@@ -207,6 +207,16 @@ def pip_extras():
             "desc": "Python bridge for LibreOffice & OpenOffice (open source MS 365 alternative)",
             "pip": "pyoo"
         },
+        {
+            "name": "opengl",
+            "desc": "OpenGL for Python (PyOpenGL is usually enough, this is for edge cases)",
+            "pip": "opengl"
+        },
+        {
+            "name": "python-ta-lib",
+            "desc": "TA-Lib for Python (requires TA-Lib C lib preinstalled, see docs)",
+            "pip": "TA-Lib"
+        },
         # Add more packages as you wish...
     ]
 
@@ -263,6 +273,67 @@ def pip_extras():
     Install recommended PyPI-only packages (not available on conda).
     Alias: pip-extras, pypi-extras
     """
+
+@main.command()
+@click.option("--lab", is_flag=True, help="Launch JupyterLab instead of Notebook.")
+def jupyter(lab):
+    """Launch Jupyter Notebook or JupyterLab in the active QuantX environment."""
+    import subprocess
+    app = "jupyter-lab" if lab else "jupyter-notebook"
+    console.print(f"[bold cyan]Launching {app}...[/bold cyan]")
+    try:
+        subprocess.run([app])
+    except Exception as e:
+        print(f"[red]Failed to launch {app}: {e}[/red]")
+
+@main.command()
+def update():
+    """Show update/upgrade instructions for QuantX."""
+    import os
+    console.print("[bold cyan]QuantX Update/Upgrade Instructions[/bold cyan]")
+    if "CONDA_DEFAULT_ENV" in os.environ:
+        console.print("[green]You are running in a Conda environment.[/green]")
+        console.print("To update QuantX via conda (if published):\n")
+        console.print("  [bold]conda update quantx[/bold]\n")
+    else:
+        console.print("[yellow]If you installed via pip:[/yellow]")
+        console.print("  [bold]pip install --upgrade quantx[/bold]\n")
+    console.print("If you installed from GitHub, pull latest and run:")
+    console.print("  [bold]pip install .[/bold]  (from the QuantX directory)")
+
+@main.command()
+def spyder():
+    """Launch Spyder IDE in the QuantX environment."""
+    import subprocess
+    console.print("[bold cyan]Launching Spyder...[/bold cyan]")
+    try:
+        subprocess.run(["spyder"])
+    except Exception as e:
+        print(f"[red]Failed to launch Spyder: {e}[/red]")
+
+@main.command()
+def vscode():
+    """Launch VS Code in the QuantX environment."""
+    import subprocess
+    console.print("[bold cyan]Launching VS Code...[/bold cyan]")
+    try:
+        subprocess.run(["code"])
+    except Exception as e:
+        print(f"[red]Failed to launch VS Code: {e}[/red]")
+
+@main.command("navigator-apps")
+def navigator_apps():
+    """Install the most popular Anaconda Navigator dashboard tools in the QuantX env."""
+    import subprocess
+    apps = [
+        "jupyter", "jupyterlab", "spyder", "vscode", "orange3", "glueviz", "qtconsole", "anaconda-navigator"
+    ]
+    console.print("[bold cyan]Installing Anaconda Navigator dashboard tools...[/bold cyan]")
+    result = subprocess.run(["conda", "install", "-n", "quantx", "-y"] + apps)
+    if result.returncode == 0:
+        console.print("[green]Navigator apps installed! Restart Anaconda Navigator to see them.[/green]")
+    else:
+        console.print("[red]Failed to install some dashboard tools. Try installing manually in your environment.[/red]")
 
 if __name__ == "__main__":
     main()

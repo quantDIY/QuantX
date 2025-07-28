@@ -1,0 +1,52 @@
+name: quantx
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - flask
+  - flask-socketio
+  - flask-cors
+  - eventlet
+  - redis
+  - h5py
+  - psycopg2
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - plotly
+  - statsmodels
+ # - gym
+  - keras
+  - tensorflow
+  - pytorch
+  - mlflow
+ # - vectorbt
+  - QuantLib
+  - cudatoolkit
+  - cupy
+  - numba
+  - pyopengl
+  - jupyter
+  - jupyterlab
+  - notebook
+  - postgresql
+  - click
+  - rich
+  - pyzmq
+  - nodejs    # npm is included in nodejs
+  # - opengl   # remove this, handled by OS or pip-extras if desired
+  - ta-lib
+  - spyder
+ # - vscode
+ # - orange3
+  - glueviz
+  - qtconsole
+  - anaconda-navigator
+  - xlwings
+  - pytest
+  - pip:
+      - .

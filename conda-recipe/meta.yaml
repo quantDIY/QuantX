@@ -15,12 +15,11 @@ build:
 
 requirements:
   build:
-    - python >=3.11
+    - python >=3.10
     - pip
     - nodejs
-    - npm
   run:
-    - python >=3.11
+    - python >=3.10
     - flask
     - flask-socketio
     - flask-cors
@@ -35,29 +34,36 @@ requirements:
     - matplotlib
     - plotly
     - statsmodels
-    - ta-lib            # C++ lib
-    - python-ta-lib     # [OPTIONAL] Some builds split this out
     - gym
     - keras
     - tensorflow
     - pytorch
     - mlflow
     - vectorbt
-    - quantlib          # C++ lib
-    - QuantLib          # Python wrapper (Conda-forge has this as QuantLib)
+    - quantlib
+    - QuantLib
     - cudatoolkit
     - cupy
     - numba
-    - rapids            # meta-package, only if user wants full RAPIDS stack
-    - opengl
+    # - opengl          # remove
+    - ta-lib
+    - libta-lib
     - pyopengl
     - jupyter
+    - jupyterlab
     - notebook
     - postgresql
     - click
     - rich
+    - pytest
     - pyzmq
-    - xlwings           # adds Excel Integration to QuantX, to add QuantX to Excel CLI "xlwings addin install"
+    - spyder
+   # - vscode
+    - orange3
+    - glueviz
+    - qtconsole
+    - anaconda-navigator
+    - xlwings
 
 test:
   commands:
