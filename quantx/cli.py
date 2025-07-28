@@ -67,21 +67,6 @@ def token_refresh():
     except Exception as e:
         print(f"[red]Token refresh failed: {e}[/red]")
 
-@main.group()
-def build():
-    """Build various QuantX components (strategies, indicators, etc.)"""
-    pass
-
-@build.command()
-def strategy():
-    """Build a new trading strategy interactively"""
-    from quantx.builder import build_strategy_interactively
-    config = build_strategy_interactively()
-    if config:
-        console.print(f"\n[green]Strategy configuration completed![/green]")
-    else:
-        console.print(f"\n[yellow]Strategy building cancelled.[/yellow]")
-
 @main.command()
 def check():
     """Perform system checks and show important QuantX info."""
@@ -182,97 +167,138 @@ def help():
     click.echo(main.get_help(click.Context(main)))
 
 @main.command("pip-extras")
-def pip_extras():
+@click.option("--all", "install_all", is_flag=True, help="Install all optional pip packages without prompting.")
+@click.option("--uninstall", "uninstall_mode", is_flag=True, help="Uninstall selected/all pip extras.")
+def pip_extras(install_all, uninstall_mode):
     """
-    Install recommended PyPI-only packages (not available on conda).
+    Install or uninstall recommended PyPI-only packages (not available on conda).
+    Use --all to install all, --uninstall to uninstall instead of install.
     """
     import subprocess
     from rich.prompt import Confirm, Prompt
     from rich.table import Table
 
-    # List of recommended pip-only extras (add more as you wish)
     pip_packages = [
         {
-            "name": "openbb",
-            "desc": "OpenBB Terminal & API (retail & institutional financial data aggregation)",
-            "pip": "openbb"
+            "name": "vectorbt",
+            "desc": "Next-gen Python library for quantitative analysis, backtesting, and algorithmic trading.",
+            "pip": "vectorbt"
+        },
+        {
+            "name": "orange3",
+            "desc": "Data mining, machine learning, and visualization suite.",
+            "pip": "orange3"
+        },
+        {
+            "name": "gym",
+            "desc": "OpenAI Gym for developing and comparing reinforcement learning algorithms.",
+            "pip": "gym"
+        },
+        {
+            "name": "TA-Lib",
+            "desc": "TA-Lib for Python (requires TA-Lib C library preinstalled, see docs).",
+            "pip": "TA-Lib"
+        },
+        {
+            "name": "torch",
+            "desc": "PyTorch machine learning framework (use pip if conda is problematic).",
+            "pip": "torch"
         },
         {
             "name": "backtrader",
-            "desc": "Popular backtesting engine for trading strategies",
+            "desc": "Popular backtesting engine for trading strategies.",
             "pip": "backtrader"
         },
         {
             "name": "pyoo",
-            "desc": "Python bridge for LibreOffice & OpenOffice (open source MS 365 alternative)",
+            "desc": "Python bridge for LibreOffice & OpenOffice (open source MS 365 alternative).",
             "pip": "pyoo"
         },
         {
             "name": "opengl",
-            "desc": "OpenGL for Python (PyOpenGL is usually enough, this is for edge cases)",
+            "desc": "OpenGL for Python (PyOpenGL is usually enough, this is for edge cases).",
             "pip": "opengl"
-        },
-        {
-            "name": "python-ta-lib",
-            "desc": "TA-Lib for Python (requires TA-Lib C lib preinstalled, see docs)",
-            "pip": "TA-Lib"
         },
         # Add more packages as you wish...
     ]
 
-    console.print("[bold cyan]Optional PyPI-Only Extras[/bold cyan]")
-    if not Confirm.ask("Would you like to install extra pip-only packages (these are NOT available on conda)?"):
-        console.print("[yellow]Skipping pip extras install. You can run this wizard later with 'quantx pip-extras'.[/yellow]")
-        return
+    action_word = "Uninstalling" if uninstall_mode else "Installing"
+    console.print(f"[bold cyan]{action_word} Optional PyPI-Only Extras[/bold cyan]")
 
-    table = Table(title="Recommended PyPI Packages")
-    table.add_column("No.", style="cyan", width=4)
-    table.add_column("Package", style="bold")
-    table.add_column("Description", style="dim")
-
-    for idx, pkg in enumerate(pip_packages):
-        table.add_row(str(idx + 1), pkg["name"], pkg["desc"])
-
-    console.print(table)
-    choices = Prompt.ask(
-        "Enter comma-separated numbers for packages to install (e.g. 1,2) or 'a' for all, or leave blank to cancel",
-        default=""
-    ).replace(" ", "")
-
-    if not choices:
-        console.print("[yellow]No packages selected. Nothing to install.[/yellow]")
-        return
-
-    # Parse user choices
-    if choices.lower() == "a":
-        selection = list(range(1, len(pip_packages)+1))
+    if install_all:
+        selected_pkgs = pip_packages
+        console.print(f"[bold cyan]{action_word.upper()} ALL pip-only extras...[/bold cyan]")
     else:
-        try:
-            selection = [int(x) for x in choices.split(",") if x.isdigit() and 1 <= int(x) <= len(pip_packages)]
-        except Exception:
-            console.print("[red]Invalid selection. Exiting pip extras wizard.[/red]")
+        if uninstall_mode:
+            if not Confirm.ask("Would you like to UNINSTALL extra pip-only packages?"):
+                console.print("[yellow]Skipping pip extras uninstall.[/yellow]")
+                return
+        else:
+            if not Confirm.ask("Would you like to install extra pip-only packages (these are NOT available on conda)?"):
+                console.print("[yellow]Skipping pip extras install. You can run this wizard later with 'quantx pip-extras'.[/yellow]")
+                return
+
+        from rich.console import Console
+        table = Table(title="Recommended PyPI Packages")
+        table.add_column("No.", style="cyan", width=4)
+        table.add_column("Package", style="bold")
+        table.add_column("Description", style="dim")
+
+        for idx, pkg in enumerate(pip_packages):
+            table.add_row(str(idx + 1), pkg["name"], pkg["desc"])
+
+        console = Console()
+        console.print(table)
+        choices = Prompt.ask(
+            f"Enter comma-separated numbers for packages to {'uninstall' if uninstall_mode else 'install'} (e.g. 1,2) or 'a' for all, or leave blank to cancel",
+            default=""
+        ).replace(" ", "")
+
+        if not choices:
+            console.print(f"[yellow]No packages selected. Nothing to {'uninstall' if uninstall_mode else 'install'}.[/yellow]")
             return
 
-    selected_pkgs = [pip_packages[i-1] for i in selection]
-
-    for pkg in selected_pkgs:
-        console.print(f"[cyan]Installing [bold]{pkg['name']}[/bold]...[/cyan]")
-        result = subprocess.run([sys.executable, "-m", "pip", "install", pkg["pip"]])
-        if result.returncode == 0:
-            console.print(f"[green]{pkg['name']} installed successfully.[/green]")
+        # Parse user choices
+        if choices.lower() == "a":
+            selection = list(range(1, len(pip_packages)+1))
         else:
-            console.print(f"[red]Failed to install {pkg['name']}. You may try manually: pip install {pkg['pip']}[/red]")
+            try:
+                selection = [int(x) for x in choices.split(",") if x.isdigit() and 1 <= int(x) <= len(pip_packages)]
+            except Exception:
+                console.print(f"[red]Invalid selection. Exiting pip extras {'uninstall' if uninstall_mode else 'wizard'}.[/red]")
+                return
 
-    console.print("[bold green]Pip-extras installation complete![/bold green]")
-    console.print("[yellow]You can run this wizard again anytime to add features -- run [bold]quantx pip-extras[/bold] or [bold]quantx pypi-extras[/bold][/yellow]")
+        selected_pkgs = [pip_packages[i-1] for i in selection]
 
-@main.command("pip-extras")
-@main.command("pypi-extras")  # <-- This makes it an alias!
-def pip_extras():
-    """
-    Install recommended PyPI-only packages (not available on conda).
-    Alias: pip-extras, pypi-extras
-    """
+    # Install or uninstall selected packages
+    for pkg in selected_pkgs:
+        if uninstall_mode:
+            console.print(f"[cyan]Uninstalling [bold]{pkg['name']}[/bold]...[/cyan]")
+            result = subprocess.run([sys.executable, "-m", "pip", "uninstall", "-y", pkg["pip"]])
+            if result.returncode == 0:
+                console.print(f"[green]{pkg['name']} uninstalled successfully.[/green]")
+            else:
+                console.print(f"[red]Failed to uninstall {pkg['name']}. You may try manually: pip uninstall {pkg['pip']}[/red]")
+        else:
+            console.print(f"[cyan]Installing [bold]{pkg['name']}[/bold]...[/cyan]")
+            result = subprocess.run([sys.executable, "-m", "pip", "install", pkg["pip"]])
+            if result.returncode == 0:
+                console.print(f"[green]{pkg['name']} installed successfully.[/green]")
+            else:
+                console.print(f"[red]Failed to install {pkg['name']}. You may try manually: pip install {pkg['pip']}[/red]")
+
+    if uninstall_mode:
+        console.print("[bold green]Pip-extras uninstall complete![/bold green]")
+        console.print("[yellow]You can run this wizard again anytime to add/remove features -- run [bold]quantx pip-extras[/bold][/yellow]")
+    else:
+        console.print("[bold green]Pip-extras installation complete![/bold green]")
+        console.print("[yellow]You can run this wizard again anytime to add features -- run [bold]quantx pip-extras[/bold] or [bold]quantx pypi-extras[/bold][/yellow]")
+
+@main.command("pypi-extras")  # alias for pip-extras
+@click.option("--all", "install_all", is_flag=True, help="Install all optional pip packages without prompting.")
+@click.option("--uninstall", "uninstall_mode", is_flag=True, help="Uninstall selected/all pip extras.")
+def pypi_extras(install_all, uninstall_mode):
+    pip_extras.callback(install_all, uninstall_mode)
 
 @main.command()
 @click.option("--lab", is_flag=True, help="Launch JupyterLab instead of Notebook.")
@@ -337,4 +363,3 @@ def navigator_apps():
 
 if __name__ == "__main__":
     main()
-

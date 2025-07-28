@@ -59,7 +59,7 @@ requirements:
     - pyzmq
     - spyder
    # - vscode
-    - orange3
+   # - orange3
     - glueviz
     - qtconsole
     - anaconda-navigator
