@@ -24,3 +24,8 @@ logs/
  logs/*.json
  logs/%
 *.log
+
+.warp/ - The entire Warp context directory 
+QUANTX_STRATEGY_BUILDER_CONTEXT.md - The specific context file we created
+*_CONTEXT.md - Any future context files you create
+*_NOTES.md - Any personal development notes
