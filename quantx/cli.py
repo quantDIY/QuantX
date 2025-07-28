@@ -178,29 +178,44 @@ def pip_extras():
     # List of recommended pip-only extras (add more as you wish)
     pip_packages = [
         {
-            "name": "openbb",
-            "desc": "OpenBB Terminal & API (retail & institutional financial data aggregation)",
-            "pip": "openbb"
+            "name": "vectorbt",
+            "desc": "Next-gen Python library for quantitative analysis, backtesting, and algorithmic trading.",
+            "pip": "vectorbt"
+        },
+        {
+            "name": "orange3",
+            "desc": "Data mining, machine learning, and visualization suite.",
+            "pip": "orange3"
+        },
+        {
+            "name": "gym",
+            "desc": "OpenAI Gym for developing and comparing reinforcement learning algorithms.",
+            "pip": "gym"
+        },
+        {
+            "name": "TA-Lib",
+            "desc": "TA-Lib for Python (requires TA-Lib C library preinstalled, see docs).",
+            "pip": "TA-Lib"
+        },
+        {
+            "name": "torch",
+            "desc": "PyTorch machine learning framework (use pip if conda is problematic).",
+            "pip": "torch"
         },
         {
             "name": "backtrader",
-            "desc": "Popular backtesting engine for trading strategies",
+            "desc": "Popular backtesting engine for trading strategies.",
             "pip": "backtrader"
         },
         {
             "name": "pyoo",
-            "desc": "Python bridge for LibreOffice & OpenOffice (open source MS 365 alternative)",
+            "desc": "Python bridge for LibreOffice & OpenOffice (open source MS 365 alternative).",
             "pip": "pyoo"
         },
         {
             "name": "opengl",
-            "desc": "OpenGL for Python (PyOpenGL is usually enough, this is for edge cases)",
+            "desc": "OpenGL for Python (PyOpenGL is usually enough, this is for edge cases).",
             "pip": "opengl"
-        },
-        {
-            "name": "python-ta-lib",
-            "desc": "TA-Lib for Python (requires TA-Lib C lib preinstalled, see docs)",
-            "pip": "TA-Lib"
         },
         # Add more packages as you wish...
     ]
