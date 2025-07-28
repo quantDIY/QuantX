@@ -1,0 +1,20 @@
+# QuantX Design System Configuration
+# Copy this to .design_env and fill in your actual values
+# This file is in .gitignore and will NOT be committed to git
+
+# Figma Integration
+# Get your token from: https://figma.com/developers/api#access-tokens
+FIGMA_TOKEN=your_figma_personal_access_token_here
+
+# Your Figma file key (found in the Figma file URL)
+# Example: https://www.figma.com/file/ABC123DEF456/Your-Design-System
+# The file key would be: ABC123DEF456
+FIGMA_FILE_KEY=your_figma_file_key_here
+
+# The page name in your Figma file containing design tokens
+FIGMA_PAGE_NAME=Design System
+
+# Design system settings
+AUTO_SYNC_ENABLED=false
+BACKUP_ENABLED=true
+MAX_BACKUPS=5

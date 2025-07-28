@@ -9,3 +9,32 @@ os
 logs/*.json
 dist-electron/
 logs/
+
+# Warp AI context files (local development only)
+.warp/
+QUANTX_STRATEGY_BUILDER_CONTEXT.md
+
+# Development documentation (keep local)
+*_CONTEXT.md
+*_NOTES.md
+
+# Design System & Figma Integration (sensitive data - keep local)
+.design_env
+.design_config
+.figma_token
+.figma_config.json
+design_tokens.json
+figma_cache/
+*.backup.*
+DESIGN_SYSTEM_IMPLEMENTATION.md
+
+# QuantX Strategy Builder (private development - keep local)
+strategy_builder/
+*strategy*
+*STRATEGY*
+backtesting_results/
+strategy_templates/
+
+# Local Redis data
+redis_dump.rdb
+redis.conf

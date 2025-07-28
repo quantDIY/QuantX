@@ -8,6 +8,7 @@ import { Accounts } from './components/accounts'
 import { Dashboard } from './components/dashboard'
 import { PlaceholderView } from './components/placeholder-view'
 import { SignIn } from './components/signin'
+import { DesignSystemView } from './components/design-system'
 
 interface User {
   username: string
@@ -85,6 +86,36 @@ export default function App() {
         return <PlaceholderView title="Indicators" description="Technical analysis tools and custom indicators" />
       case 'data':
         return <PlaceholderView title="Data" description="Market data feeds, historical data, and analytics" />
+      case 'design-system':
+        return (
+          <DesignSystemView
+            data={{
+              tokens: [],
+              figmaConfig: {
+                figma_token_configured: false,
+                figma_file_key: '',
+                figma_page_name: 'Design System'
+              }
+            }}
+            isLoading={false}
+            onSyncFigma={(fileKey, pageName) => {
+              // This would make API call to backend
+              console.log('Sync Figma:', fileKey, pageName)
+            }}
+            onSaveFigmaConfig={(config) => {
+              // This would make API call to backend
+              console.log('Save Figma config:', config)
+            }}
+            onGenerateCSS={() => {
+              // This would make API call to backend
+              console.log('Generate CSS')
+            }}
+            onDownloadTokens={() => {
+              // This would make API call to backend
+              console.log('Download tokens')
+            }}
+          />
+        )
       case 'settings':
         return <PlaceholderView title="Settings" description="Configure your QuantX application preferences" />
       default:

@@ -21,6 +21,7 @@ const navigationItems = [
   { id: 'visualization', label: 'Visualization Studio', icon: BarChartHorizontal },
   { id: 'notebook', label: 'Research Notebook', icon: BookOpen },
   { id: 'openbb', label: 'OpenBB Terminal', icon: TerminalSquare },
+  { id: 'design-system', label: 'Design System', icon: BookOpenCheck },
   { id: 'settings', label: 'Settings', icon: Settings },
 ]
 
