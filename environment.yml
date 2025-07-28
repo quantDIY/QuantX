@@ -47,5 +47,6 @@ dependencies:
   - qtconsole
   - anaconda-navigator
   - xlwings
+  - pytest
   - pip:
       - .
