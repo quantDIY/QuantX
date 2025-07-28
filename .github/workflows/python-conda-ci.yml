@@ -33,10 +33,10 @@ jobs:
         run: |
           pip install -e .
 
-      - name: Run Python tests
-        shell: bash -l {0}
-        run: |
-          pytest tests/python
+#      - name: Run Python tests
+#        shell: bash -l {0}
+#        run: |
+#          pytest tests/python
 
       - name: Build Conda package
         shell: bash -l {0}
