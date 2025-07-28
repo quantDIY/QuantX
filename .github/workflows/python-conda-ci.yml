@@ -28,10 +28,25 @@ jobs:
           activate-environment: quantx
           environment-file: environment.yml
 
-      - name: Install pip dependencies
+      # --- New: Install and use libmamba solver ---
+      - name: Install conda-libmamba-solver
+        shell: bash -l {0}
+        run: |
+          conda install -n base conda-libmamba-solver -c conda-forge -y
+          conda config --set solver libmamba
+
+      # --- New: Install vectorbt via pip only (not conda) ---
+      - name: Install pip dependencies (including vectorbt)
         shell: bash -l {0}
         run: |
           pip install -e .
+          pip install vectorbt
+
+      # (Optional fallback for problematic packages)
+      - name: Install gym and orange3 via pip if not installed by conda
+        shell: bash -l {0}
+        run: |
+          pip install gym orange3
 
 #      - name: Run Python tests
 #        shell: bash -l {0}

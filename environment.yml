@@ -19,12 +19,12 @@ dependencies:
   - matplotlib
   - plotly
   - statsmodels
-  - gym
+ # - gym
   - keras
   - tensorflow
   - pytorch
   - mlflow
-  - vectorbt
+ # - vectorbt
   - QuantLib
   - cudatoolkit
   - cupy
@@ -42,7 +42,7 @@ dependencies:
   - ta-lib
   - spyder
  # - vscode
-  - orange3
+ # - orange3
   - glueviz
   - qtconsole
   - anaconda-navigator
