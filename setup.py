@@ -28,7 +28,7 @@ setup(
         "plotly",
         "psycopg2",
         "pyopengl",
-        "python-ta-lib", 
+       # "python-ta-lib", 
         "pyzmq",
         "QuantLib",
         "pytorch",

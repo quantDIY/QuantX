@@ -48,7 +48,6 @@ requirements:
     # - opengl          # remove
     - ta-lib
     - libta-lib
-    - python-ta-lib
     - pyopengl
     - jupyter
     - jupyterlab

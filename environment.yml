@@ -40,7 +40,6 @@ dependencies:
   - nodejs    # npm is included in nodejs
   # - opengl   # remove this, handled by OS or pip-extras if desired
   - ta-lib
-  - python-ta-lib 
   - spyder
   - vscode
   - orange3
