@@ -28,9 +28,9 @@ setup(
         "plotly",
         "psycopg2",
         "pyopengl",
-        "python-ta-lib",    # conda-forge: python-ta-lib
+        "python-ta-lib", 
         "pyzmq",
-        "QuantLib",         # conda-forge: QuantLib
+        "QuantLib",
         "pytorch",
         "redis",
         "rich",
@@ -39,8 +39,8 @@ setup(
         "statsmodels",
         "tensorflow",
         "vectorbt",
-        "xlwings"
-        # Do not include pip-only packages here!
+        "xlwings",
+        # Do not include pip-only or problematic packages here!
     ],
     entry_points={
         "console_scripts": [

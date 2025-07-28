@@ -192,6 +192,16 @@ def pip_extras():
             "desc": "Python bridge for LibreOffice & OpenOffice (open source MS 365 alternative)",
             "pip": "pyoo"
         },
+        {
+            "name": "opengl",
+            "desc": "OpenGL for Python (PyOpenGL is usually enough, this is for edge cases)",
+            "pip": "opengl"
+        },
+        {
+            "name": "python-ta-lib",
+            "desc": "TA-Lib for Python (requires TA-Lib C lib preinstalled, see docs)",
+            "pip": "TA-Lib"
+        },
         # Add more packages as you wish...
     ]
 

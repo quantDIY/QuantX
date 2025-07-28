@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.11
+  - python=3.10
   - pip
   - flask
   - flask-socketio
@@ -19,7 +19,6 @@ dependencies:
   - matplotlib
   - plotly
   - statsmodels
-  - python-ta-lib
   - gym
   - keras
   - tensorflow
@@ -30,7 +29,6 @@ dependencies:
   - cudatoolkit
   - cupy
   - numba
-  - opengl
   - pyopengl
   - jupyter
   - jupyterlab
@@ -39,7 +37,16 @@ dependencies:
   - click
   - rich
   - pyzmq
-  - nodejs
-  - npm
+  - nodejs    # npm is included in nodejs
+  # - opengl   # remove this, handled by OS or pip-extras if desired
+  - ta-lib
+  - python-ta-lib 
+  - spyder
+  - vscode
+  - orange3
+  - glueviz
+  - qtconsole
+  - anaconda-navigator
+  - xlwings
   - pip:
       - .
