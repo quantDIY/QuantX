@@ -41,7 +41,7 @@ dependencies:
   # - opengl   # remove this, handled by OS or pip-extras if desired
   - ta-lib
   - spyder
-  - vscode
+ # - vscode
   - orange3
   - glueviz
   - qtconsole

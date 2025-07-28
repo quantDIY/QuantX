@@ -57,7 +57,7 @@ requirements:
     - rich
     - pyzmq
     - spyder
-    - vscode
+   # - vscode
     - orange3
     - glueviz
     - qtconsole

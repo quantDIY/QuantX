@@ -1,11 +1,26 @@
+# Node/Electron
 node_modules/
 dist/
-__pycache__/
-.vscode/
-*.log
-.DS_Store
-.env
-os
-logs/*.json
 dist-electron/
+
+# Python
+__pycache__/
+venv/
+
+# IDEs & system
+.vscode/
+.DS_Store
+
+# Environment and config
+.env
+
+# OS
+os
+
+# Logs
 logs/
+
+# Logs (redundant lines below can be removed)
+ logs/*.json
+ logs/%
+*.log
