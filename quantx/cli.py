@@ -67,6 +67,21 @@ def token_refresh():
     except Exception as e:
         print(f"[red]Token refresh failed: {e}[/red]")
 
+@main.group()
+def build():
+    """Build various QuantX components (strategies, indicators, etc.)"""
+    pass
+
+@build.command()
+def strategy():
+    """Build a new trading strategy interactively"""
+    from quantx.builder import build_strategy_interactively
+    config = build_strategy_interactively()
+    if config:
+        console.print(f"\n[green]Strategy configuration completed![/green]")
+    else:
+        console.print(f"\n[yellow]Strategy building cancelled.[/yellow]")
+
 @main.command()
 def check():
     """Perform system checks and show important QuantX info."""
