@@ -1,0 +1,17 @@
+# conda_build_config.yaml
+# Pin versions to resolve OpenSSL conflicts
+
+python:
+  - 3.10
+
+numpy:
+  - 1.22
+
+# Try to use a nodejs version that's compatible with older OpenSSL
+nodejs:
+  - 18.20.*
+  - 20.11.*
+
+# Pin OpenSSL to avoid conflicts
+openssl:
+  - 1.1.1

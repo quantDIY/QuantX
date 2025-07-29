@@ -20,7 +20,7 @@ requirements:
     - setuptools
     - wheel
     - numpy >=1.22,<2.0
-    - nodejs
+    - nodejs >=18
   run:
     - python =3.10
     - flask
