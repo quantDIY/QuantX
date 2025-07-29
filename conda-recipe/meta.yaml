@@ -12,6 +12,7 @@ build:
   script: |
     npm install
     npm run build
+  skip: False  # Explicitly define single output
 
 requirements:
   build:
@@ -32,7 +33,6 @@ requirements:
     - h5py
     - psycopg2
     - pandas
-    - numpy
     - scipy
     - scikit-learn
     - matplotlib
