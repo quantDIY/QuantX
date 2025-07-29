@@ -12,7 +12,6 @@ build:
   script: |
     npm install
     npm run build
-  skip: False  # Explicitly define single output
 
 requirements:
   build:
