@@ -10,19 +10,23 @@ source:
 build:
   number: 0
   script: |
-    cd frontend && npm install && npm run build && cd ..
-    pip install .
+    npm install
+    npm run build
 
 requirements:
   build:
     - python =3.10
     - pip
+    - setuptools
+    - wheel
+    - numpy >=1.22,<2.0
     - nodejs
   run:
     - python =3.10
     - flask
     - flask-socketio
     - flask-cors
+    - numpy >=1.22,<2.0
     - eventlet
     - redis
     - h5py
