@@ -15,11 +15,11 @@ build:
 
 requirements:
   build:
-    - python >=3.10
+    - python =3.10
     - pip
     - nodejs
   run:
-    - python >=3.10
+    - python =3.10
     - flask
     - flask-socketio
     - flask-cors

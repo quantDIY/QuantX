@@ -19,13 +19,34 @@ os
 
 # Logs
 logs/
-
-# Logs (redundant lines below can be removed)
- logs/*.json
- logs/%
+logs/*.json
 *.log
 
-.warp/ - The entire Warp context directory 
-QUANTX_STRATEGY_BUILDER_CONTEXT.md - The specific context file we created
-*_CONTEXT.md - Any future context files you create
-*_NOTES.md - Any personal development notes
+# Warp AI context files (local development only)
+.warp/
+QUANTX_STRATEGY_BUILDER_CONTEXT.md
+
+# Development documentation (keep local)
+*_CONTEXT.md
+*_NOTES.md
+
+# Design System & Figma Integration (sensitive data - keep local)
+.design_env
+.design_config
+.figma_token
+.figma_config.json
+design_tokens.json
+figma_cache/
+*.backup.*
+DESIGN_SYSTEM_IMPLEMENTATION.md
+
+# QuantX Strategy Builder (private development - keep local)
+strategy_builder/
+*strategy*
+*STRATEGY*
+backtesting_results/
+strategy_templates/
+
+# Local Redis data
+redis_dump.rdb
+redis.conf

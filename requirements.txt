@@ -7,3 +7,4 @@ redis
 Flask-SocketIO
 flask-cors
 eventlet
+httpx

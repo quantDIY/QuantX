@@ -48,5 +48,5 @@ dependencies:
   - anaconda-navigator
   - xlwings
   - pytest
-  - pip:
-      - .
+ # - pip:
+ #     - .

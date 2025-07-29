@@ -39,7 +39,7 @@ setup(
         "statsmodels",
         "tensorflow",
         "torch",
-        "vectorbt",
+      #  "vectorbt",
         "xlwings",
         # Do not include pip-only or problematic packages here!
     ],
