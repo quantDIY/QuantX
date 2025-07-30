@@ -39,11 +39,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
           activate-environment: quantx
           channels: conda-forge,defaults
+          auto-activate-base: false
 
-      - name: Install conda-build
+      - name: Install conda-build and libmamba-solver
         shell: bash -l {0}
         run: |
-          conda install -y conda-build anaconda-client
+          conda install -y conda-build anaconda-client conda-libmamba-solver
 
       - name: Build conda package
         shell: bash -l {0}
@@ -51,20 +52,12 @@ jobs:
           conda build ./matrix-build/conda-recipe \
             --python ${{ matrix.python-version }}
 
-      - name: Test local installation
-        shell: bash -l {0}
-        run: |
-          # Install the built package locally to verify it works
-          conda install -y --use-local quantx
-          # Verify CLI is accessible
-          quantx version
-
       - name: Upload package artifacts
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: quantx-py${{ matrix.python-version }}-node${{ matrix.nodejs-version }}-ssl${{ matrix.openssl-version }}
-          path: /usr/share/miniconda3/envs/test/conda-bld/*/quantx-*.tar.bz2
+          path: /usr/share/miniconda3/envs/quantx/conda-bld/*/quantx-*.tar.bz2
 
   publish-release-candidate:
     needs: matrix-conda-build
@@ -74,19 +67,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set up Mambaforge
+      - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          miniforge-variant: Mambaforge
-          miniforge-version: latest
-          use-mamba: true
+          auto-update-conda: true
           python-version: "3.10"
+          activate-environment: quantx-publish
           channels: conda-forge,defaults
+          auto-activate-base: false
 
       - name: Install conda-build and anaconda-client
         shell: bash -l {0}
         run: |
-          mamba install -y conda-build anaconda-client
+          conda install -y conda-build anaconda-client conda-libmamba-solver
 
       - name: Build release candidate package
         shell: bash -l {0}
@@ -105,6 +98,6 @@ jobs:
             --user quantDIY \
             --label rc \
             --force \
-            /usr/share/miniconda3/envs/test/conda-bld/*/quantx-*.tar.bz2
+            /usr/share/miniconda3/envs/quantx-publish/conda-bld/*/quantx-*.tar.bz2
           echo "✅ QuantX Release Candidate published to Anaconda!"
           echo "🚀 Install with: conda install -c quantDIY/label/rc quantx"

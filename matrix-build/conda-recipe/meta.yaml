@@ -12,7 +12,7 @@ build:
   number: 0
   skip: true  # [py<310 or win]
   script: |
-    python matrix-setup.py install
+    python matrix-build/setup-matrix.py install
     npm install
     npm run build
 

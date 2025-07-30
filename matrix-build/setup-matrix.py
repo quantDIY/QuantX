@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="quantx-core",
+    name="quantx",
     version="0.0.4",
     packages=find_packages(where=".."),
     package_dir={"": ".."},
@@ -22,7 +22,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "quantx = quantx.cli_matrix:main",
+            "quantx = quantx.matrix_cli:main",
         ],
     },
     author="QuantDIY",
