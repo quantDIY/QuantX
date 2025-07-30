@@ -8,7 +8,7 @@ on:
 
 jobs:
   matrix-conda-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -61,7 +61,7 @@ jobs:
 
   publish-release-candidate:
     needs: matrix-conda-build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: success()
     
     steps:

@@ -10,11 +10,8 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<310 or win]
-  script: |
-    python matrix-build/setup-matrix.py install
-    npm install
-    npm run build
+  skip: true  # [py<310]
+  script: "python matrix-build/setup-matrix.py install && npm install && npm run build"
 
 requirements:
   build:
