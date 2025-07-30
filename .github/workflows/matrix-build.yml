@@ -50,8 +50,7 @@ jobs:
         shell: bash -l {0}
         run: |
           conda build ./matrix-build/conda-recipe \
-            --python ${{ matrix.python-version }} \
-            --variants "{\"openssl\": [\"${{ matrix.openssl-version }}\"], \"nodejs\": [\"${{ matrix.nodejs-version }}\"]}"
+            --python ${{ matrix.python-version }}
 
       - name: Test local installation
         shell: bash -l {0}
