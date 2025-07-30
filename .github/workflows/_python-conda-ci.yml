@@ -66,7 +66,7 @@ jobs:
         shell: bash -l {0}
         run: |
           PKG_PATH=$(conda build conda-recipe-matrix --output)
-          anaconda upload -u quantdiy $PKG_PATH --label main --force
+          anaconda upload -u quantdiy --label main --force $PKG_PATH
 
       - name: Upload Conda package as Release Candidate
         if: github.ref == 'refs/heads/anaconda-integration' && github.event_name == 'push'
@@ -75,6 +75,6 @@ jobs:
         shell: bash -l {0}
         run: |
           PKG_PATH=$(conda build conda-recipe-matrix --output)
-          anaconda upload -t $ANACONDA_API_TOKEN -u quantDIY --label rc --force $PKG_PATH
+          anaconda upload -u quantDIY --label rc --force $PKG_PATH
           echo "✅ QuantX Release Candidate published to Anaconda!"
           echo "🚀 Install with: conda install -c quantDIY/label/rc quantx"
