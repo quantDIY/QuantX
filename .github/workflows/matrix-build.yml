@@ -62,7 +62,7 @@ jobs:
 
       - name: Upload package artifacts
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: quantx-py${{ matrix.python-version }}-node${{ matrix.nodejs-version }}-ssl${{ matrix.openssl-version }}
           path: /usr/share/miniconda3/envs/test/conda-bld/*/quantx-*.tar.bz2
