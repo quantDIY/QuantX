@@ -23,7 +23,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "quantx = quantx.matrix-cli:main",
+            "quantx = quantx.matrix_cli:main",
         ],
     },
     author="QuantDIY",
