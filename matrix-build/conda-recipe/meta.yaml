@@ -1,0 +1,83 @@
+# matrix-build/conda-recipe/meta.yaml
+# Minimal conda recipe for matrix testing - only C++ libraries and core deps
+
+package:
+  name: quantx-core
+  version: 0.0.4
+
+source:
+  path: ../../
+
+build:
+  number: 0
+  script: |
+    pip install -e .
+    npm install
+    npm run build
+
+requirements:
+  build:
+    - python
+    - nodejs >=18
+    - pip
+    - setuptools
+    - wheel
+  run:
+    - python
+    - nodejs >=18
+    # C++ libraries from conda-forge
+    - conda-forge::libta-lib
+    - conda-forge::postgresql
+    - conda-forge::redis
+    - conda-forge::zeromq
+    - conda-forge::cudatoolkit
+    - conda-forge::ta-lib
+    - conda-forge::quantlib
+    - conda-forge::quantlib-python
+    # Core Python scientific libraries
+    - conda-forge::pandas
+    - conda-forge::numpy
+    - conda-forge::scipy
+    - conda-forge::scikit-learn
+    - conda-forge::statsmodels
+    - conda-forge::numba
+    - conda-forge::h5py
+    - conda-forge::matplotlib
+    - conda-forge::plotly
+    # Development tools
+    - conda-forge::jupyter
+    - conda-forge::jupyterlab
+    - conda-forge::notebook
+    - conda-forge::spyder
+    - conda-forge::qtconsole
+    - conda-forge::pytest
+    # Anaconda tools (from main channel, not conda-forge)
+    - anaconda-navigator
+    # Machine learning frameworks
+    - conda-forge::tensorflow
+    - conda-forge::keras
+    - pytorch
+    - conda-forge::mlflow
+    # Core Python libraries needed for CLI to function
+    - click
+    - rich
+    - python-dotenv
+    - requests
+    - flask
+    - flask-socketio
+    - flask-cors
+    - eventlet
+
+test:
+  commands:
+    - quantx --help
+    - python -c "import quantx"
+
+about:
+  home: https://github.com/quantDIY/QuantX
+  license: CC-BY-NC-4.0
+  summary: "QuantX Core - Minimal build for matrix testing"
+
+extra:
+  recipe-maintainers:
+    - quantDIY

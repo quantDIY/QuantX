@@ -1,0 +1,28 @@
+# matrix-build/conda-recipe/conda_build_config.yaml
+# Matrix build configuration for testing different combinations
+
+python:
+  - 3.10
+  - 3.11
+
+nodejs:
+  - 18
+  - 20
+
+openssl:
+  - 1.1.1
+  - 3.0
+
+numpy:
+  - 1.22
+  - 1.24
+
+# Pin problematic packages to stable versions
+libta_lib:
+  - "*"
+  
+redis:
+  - "*"
+  
+postgresql:
+  - "*"

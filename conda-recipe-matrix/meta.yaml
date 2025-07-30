@@ -1,0 +1,26 @@
+package:
+  name: quantx-core
+  version: 0.0.4
+
+source:
+  path: ../
+
+requirements:
+  build:
+    - python
+    - nodejs >=18
+    - pip
+    - setuptools
+    - wheel
+  run:
+    - python
+    - nodejs >=18
+    - libta-lib
+    - postgresql
+    - redis
+    # Core Python libraries for the CLI/base app
+    - click
+    - rich
+    - python-dotenv
+    - requests
+
