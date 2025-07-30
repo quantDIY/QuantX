@@ -12,12 +12,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11"]
-        nodejs-version: ["18", "20"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        nodejs-version: ["18", "20", "22", "24"]
         openssl-version: ["1.1.1", "3.0"]
         exclude:
           # Exclude known failing combinations
           - python-version: "3.11"
+            openssl-version: "1.1.1"
+          - python-version: "3.12"
+            openssl-version: "1.1.1"
+          - python-version: "3.13"
+            openssl-version: "1.1.1"
+          # Node.js 24 might have compatibility issues with older OpenSSL
+          - nodejs-version: "24"
             openssl-version: "1.1.1"
 
     name: "Python ${{ matrix.python-version }}, Node ${{ matrix.nodejs-version }}, OpenSSL ${{ matrix.openssl-version }}"
@@ -50,7 +57,7 @@ jobs:
         shell: bash -l {0}
         run: |
           # Install the built package locally to verify it works
-          mamba install -y --use-local quantx-core
+          mamba install -y --use-local quantx
           # Verify CLI is accessible
           quantx version
 
@@ -58,5 +65,48 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: quantx-core-py${{ matrix.python-version }}-node${{ matrix.nodejs-version }}-ssl${{ matrix.openssl-version }}
-          path: /usr/share/miniconda3/envs/test/conda-bld/*/quantx-core-*.tar.bz2
+          name: quantx-py${{ matrix.python-version }}-node${{ matrix.nodejs-version }}-ssl${{ matrix.openssl-version }}
+          path: /usr/share/miniconda3/envs/test/conda-bld/*/quantx-*.tar.bz2
+
+  publish-release-candidate:
+    needs: matrix-conda-build
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Mambaforge
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          use-mamba: true
+          python-version: "3.10"
+          channels: conda-forge,defaults
+
+      - name: Install conda-build and anaconda-client
+        shell: bash -l {0}
+        run: |
+          mamba install -y conda-build anaconda-client
+
+      - name: Build release candidate package
+        shell: bash -l {0}
+        run: |
+          conda build ./matrix-build/conda-recipe \
+            --python 3.10 \
+            --variants "{\"openssl\": [\"3.0\"], \"nodejs\": [\"18\"]}"
+
+      - name: Upload to Anaconda as Release Candidate
+        shell: bash -l {0}
+        env:
+          ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+        run: |
+          anaconda login --token $ANACONDA_API_TOKEN
+          anaconda upload \
+            --user quantDIY \
+            --label rc \
+            --force \
+            /usr/share/miniconda3/envs/test/conda-bld/*/quantx-*.tar.bz2
+          echo "✅ QuantX Release Candidate published to Anaconda!"
+          echo "🚀 Install with: conda install -c quantDIY/label/rc quantx"

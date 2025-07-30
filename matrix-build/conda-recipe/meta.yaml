@@ -2,7 +2,7 @@
 # Minimal conda recipe for matrix testing - only C++ libraries and core deps
 
 package:
-  name: quantx-core
+  name: quantx
   version: 0.0.4
 
 source:
@@ -10,6 +10,7 @@ source:
 
 build:
   number: 0
+  skip: true  # [py<310 or win]
   script: |
     pip install -e .
     npm install
@@ -17,14 +18,14 @@ build:
 
 requirements:
   build:
-    - python
-    - nodejs >=18
+    - python >=3.10
+    - nodejs >=18,<25
     - pip
     - setuptools
     - wheel
   run:
-    - python
-    - nodejs >=18
+    - python >=3.10
+    - nodejs >=18,<25
     # C++ libraries from conda-forge
     - conda-forge::libta-lib
     - conda-forge::postgresql
@@ -53,11 +54,14 @@ requirements:
     - conda-forge::pytest
     # Anaconda tools (from main channel, not conda-forge)
     - anaconda-navigator
-    # Machine learning frameworks
-    - conda-forge::tensorflow
+    # Machine learning frameworks (comprehensive TensorFlow support)
+    - tensorflow  # main anaconda channel
+    - tensorflow-gpu  # main anaconda channel
+    - conda-forge::tensorflow-cpu
     - conda-forge::keras
-    - pytorch
     - conda-forge::mlflow
+    # High-performance Python compiler
+    - conda-forge::cython
     # Core Python libraries needed for CLI to function
     - click
     - rich

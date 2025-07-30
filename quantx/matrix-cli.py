@@ -239,6 +239,12 @@ def pip_extras(install_all, uninstall_mode):
             "category": "Machine Learning"
         },
         {
+            "name": "PyTorch",
+            "desc": "Popular deep learning framework with dynamic computation graphs.",
+            "pip": "torch torchvision torchaudio",
+            "category": "Machine Learning"
+        },
+        {
             "name": "xlwings",
             "desc": "Python library to interact with Excel from Python.",
             "pip": "xlwings",
