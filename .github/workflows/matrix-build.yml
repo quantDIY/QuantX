@@ -4,7 +4,7 @@ on:
   workflow_dispatch:  # Manually triggerable
   push:
     branches:
-      - anaconda-integration
+      - matrix-build
 
 jobs:
   matrix-conda-build:
