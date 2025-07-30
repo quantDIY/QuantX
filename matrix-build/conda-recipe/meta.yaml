@@ -12,7 +12,7 @@ build:
   number: 0
   skip: true  # [py<310 or win]
   script: |
-    pip install -e .
+    python matrix-setup.py install
     npm install
     npm run build
 
@@ -26,6 +26,7 @@ requirements:
   run:
     - python >=3.10
     - nodejs >=18,<25
+    - pip
     # C++ libraries from conda-forge
     - conda-forge::libta-lib
     - conda-forge::postgresql
