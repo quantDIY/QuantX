@@ -75,6 +75,6 @@ jobs:
         shell: bash -l {0}
         run: |
           PKG_PATH=$(conda build conda-recipe-matrix --output)
-          anaconda -t $ANACONDA_API_TOKEN upload -u quantDIY --label rc --force $PKG_PATH
+          anaconda upload -t $ANACONDA_API_TOKEN -u quantDIY --label rc --force $PKG_PATH
           echo "✅ QuantX Release Candidate published to Anaconda!"
           echo "🚀 Install with: conda install -c quantDIY/label/rc quantx"
